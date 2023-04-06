@@ -15,25 +15,18 @@ int filas_a, columnas_a,
 
 int escalar = 0;
 
-int leer_escalar();
-int** leer_matriz(int* filas, int* columnas);
-void imprimir_matriz(int** matriz, int filas, int columnas);
-void sumar_matrices(int** matriz_a, int** matriz_b);
+// esenciales
+int** asignar_memoria_matriz(int filas, int columnas);
 void liberar_memoria_matriz(int** matriz, int filas);
+int** leer_matriz(int* filas, int* columnas);
+// auxiliares
+int leer_escalar();
+void imprimir_matriz(int** matriz, int filas, int columnas);
+// funciones principales
+void sumar_matrices(int** matriz_a, int** matriz_b);
+void mult_matriz_escalar(int** matriz, int escalar);
 // por usar
 void transpuesta_matriz(int[][N]);
-
-// void mult_matriz_escalar(int matriz[][N], int escalar)
-// {
-//     int matriz_escalada[M][N] = { { 0 } };
-//     for (int c = 0; c < M; c++) {
-//         for (int f = 0; f < N; f++) {
-//             matriz_escalada[c][f] = escalar * matriz[c][f];
-//         }
-//     }
-//     puts("La matriz escalada es:\n");
-//     imprimir_matriz(matriz_escalada);
-// }
 
 // void mult_matrices(int matriz_a[][N], int matriz_b[][N])
 // {
@@ -48,8 +41,6 @@ void transpuesta_matriz(int[][N]);
 //     }
 // }
 
-// por usar
-
 int main()
 {
     do {
@@ -61,7 +52,7 @@ int main()
         puts("[3] = Multiplicacion de matrices\n[4] = Transpuesta de una matriz\n");
         puts("[5] = Inversa de una matriz (Gauss-Jordan)\n[6] = Sistema de ecuaciones (Gauss-Jordan)\n");
         puts("[7] = Determinante de una matriz\n[8] = Sistema de ecuaciones (Cramer)\n");
-        
+
         scanf("%i", &opcion);
 
         switch (opcion) {
@@ -69,20 +60,24 @@ int main()
 
             matriz_a = leer_matriz(&filas_a, &columnas_a);
             matriz_b = leer_matriz(&filas_b, &columnas_b);
-            
+
             sumar_matrices(matriz_a, matriz_b);
-            
+
             liberar_memoria_matriz(matriz_a, filas_a);
             liberar_memoria_matriz(matriz_b, filas_b);
 
             getch();
             break;
-        // case 2: // multiplicar matriz por un escalar
-        //     leer_matriz(matriz_a);
-        //     escalar = leer_escalar();
-        //     mult_matriz_escalar(matriz_a, escalar);
-        //     getch();
-        //     break;
+        case 2: // multiplicar matriz por un escalar
+            matriz_a = leer_matriz(&filas_a, &columnas_a);
+            escalar = leer_escalar();
+
+            mult_matriz_escalar(matriz_a, escalar);
+
+            liberar_memoria_matriz(matriz_a, filas_a);
+
+            getch();
+            break;
         // case 3: // multiplicaicion de matrices
         //     leer_matriz(matriz_a);
         //     leer_matriz(matriz_b);
@@ -98,13 +93,32 @@ int main()
 
     return 0;
 }
-int leer_escalar()
+// ------------------------------
+// FUNCIONES ESENCIALES
+int** asignar_memoria_matriz(int filas, int columnas)
 {
-    puts("Ingrese el numero a escalar: ");
-    scanf("%i", &escalar);
-    return escalar;
-}
+    int** matriz;
 
+    // RESERVANDO MEMORIA PARA LA MATRIZ
+    matriz = (int**)malloc(filas * sizeof(int*)); // reservando memoria para el No. de filas
+    if (matriz == NULL) {
+        puts("Error al asignar memoria");
+    }
+    for (int i = 0; i < filas; i++) {
+
+        matriz[i] = (int*)malloc(columnas * sizeof(int)); // por cada fila, reservando memoria para columnas
+    }
+    return matriz;
+}
+void liberar_memoria_matriz(int** matriz, int filas)
+{
+    // liberando memoria de las columnas por cada fila
+    for (int i = 0; i < filas; i++) {
+        free(matriz[i]);
+    }
+    // liberando memoria de la matriz en si
+    free(matriz);
+}
 int** leer_matriz(int* filas, int* columnas)
 {
     int** matriz;
@@ -116,19 +130,10 @@ int** leer_matriz(int* filas, int* columnas)
     scanf("%d", columnas);
 
     // reservando memoria
-    matriz = (int**)malloc((*filas) * sizeof(int*)); // reservando memoria para las filas
-    if (matriz == NULL) {
-        puts("Error al asignar memoria");
-    }
-    for (int i = 0; i < (*filas); i++) {
-        matriz[i] = (int*)malloc((*columnas) * sizeof(int)); // reservando memoria para columnas por cada fila
-        if (matriz[i] == NULL) {
-            puts("Error al asignar memoria");
-        }
-    }
+    matriz = asignar_memoria_matriz(*filas, *columnas);
 
     // leyendo datos
-    int t = 0;
+    int t = 1;
     for (int i = 0; i < (*filas); i++) {
         int total = (*filas) * (*columnas);
 
@@ -143,15 +148,27 @@ int** leer_matriz(int* filas, int* columnas)
 
     return matriz;
 }
+// ----------------------------------------
+// FUNCIONES AUXILIARES
+
+int leer_escalar()
+{
+    puts("Ingrese el numero a escalar: ");
+    scanf("%i", &escalar);
+    return escalar;
+}
 void imprimir_matriz(int** matriz, int filas, int columnas)
 {
     for (int f = 0; f < filas; f++) {
         for (int c = 0; c < columnas; c++) {
             printf("%i ", matriz[f][c]);
         }
-        printf("\n");
+        putchar('\n');
     }
 }
+
+// ----------------------------------------
+// FUNCIONES PRINCIPALES
 
 void sumar_matrices(int** matriz_a, int** matriz_b)
 {
@@ -161,16 +178,20 @@ void sumar_matrices(int** matriz_a, int** matriz_b)
         puts("No se puden sumar las matrices, dimensiones diferentes");
 
     } else {
-        // RESERVANDO MEMORIA PARA LA MATRIZ SUMA
-        matriz_suma = (int**)malloc(filas_a * sizeof(int*)); // reservando memoria para el No. de filas
-        if (matriz_suma == NULL) {
+        // reservando memoria para la matriz suma
+        matriz_suma = asignar_memoria_matriz(filas_a, columnas_a);
 
-            puts("Error al asignar memoria");
-        }
-        for (int i = 0; i < filas_a; i++) {
+        // // RESERVANDO MEMORIA PARA LA MATRIZ SUMA
+        // matriz_suma = (int**)malloc(filas_a * sizeof(int*)); // reservando memoria para el No. de filas
+        // if (matriz_suma == NULL) {
 
-            matriz_suma[i] = (int*)malloc(columnas_b * sizeof(int)); // por cada fila, reservando memoria para columnas
-        }
+        //     puts("Error al asignar memoria");
+        // }
+        // for (int i = 0; i < filas_a; i++) {
+
+        //     matriz_suma[i] = (int*)malloc(columnas_b * sizeof(int)); // por cada fila, reservando memoria para columnas
+        // }
+
         // REALIZANDO LA SUMA
 
         for (int i = 0; i < filas_a; i++) {
@@ -178,17 +199,23 @@ void sumar_matrices(int** matriz_a, int** matriz_b)
                 matriz_suma[i][j] = matriz_a[i][j] + matriz_b[i][j];
             }
         }
+
         puts("El resultado de la suma es: \n");
         imprimir_matriz(matriz_suma, filas_a, columnas_a);
         liberar_memoria_matriz(matriz_suma, filas_a);
     }
 }
-void liberar_memoria_matriz(int** matriz, int filas)
+
+void mult_matriz_escalar(int** matriz, int escalar)
 {
-    // liberando memoria de las columnas por cada fila
-    for (int i = 0; i < filas; i++) {
-        free(matriz[i]);
+    int** matriz_escalada = asignar_memoria_matriz(filas_a, columnas_a);
+
+    for (int c = 0; c < filas_a; c++) {
+        for (int f = 0; f < columnas_a; f++) {
+            matriz_escalada[c][f] = escalar * matriz[c][f];
+        }
     }
-    // liberando memoria de la matriz en si
-    free(matriz);
+    puts("La matriz escalada es:\n");
+    imprimir_matriz(matriz_escalada, filas_a, columnas_a);
+    liberar_memoria_matriz(matriz_escalada, filas_a);
 }
