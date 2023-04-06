@@ -19,6 +19,7 @@ int leer_escalar();
 int** leer_matriz(int* filas, int* columnas);
 void imprimir_matriz(int** matriz, int filas, int columnas);
 void sumar_matrices(int** matriz_a, int** matriz_b);
+void liberar_memoria_matriz(int** matriz, int filas);
 // por usar
 void transpuesta_matriz(int[][N]);
 
@@ -51,7 +52,6 @@ void transpuesta_matriz(int[][N]);
 
 int main()
 {
-
     do {
         int opcion = 0;
 
@@ -61,13 +61,20 @@ int main()
         puts("[3] = Multiplicacion de matrices\n[4] = Transpuesta de una matriz\n");
         puts("[5] = Inversa de una matriz (Gauss-Jordan)\n[6] = Sistema de ecuaciones (Gauss-Jordan)\n");
         puts("[7] = Determinante de una matriz\n[8] = Sistema de ecuaciones (Cramer)\n");
+        
         scanf("%i", &opcion);
+
         switch (opcion) {
         case 1: // sumar matrices
+
             matriz_a = leer_matriz(&filas_a, &columnas_a);
             matriz_b = leer_matriz(&filas_b, &columnas_b);
-
+            
             sumar_matrices(matriz_a, matriz_b);
+            
+            liberar_memoria_matriz(matriz_a, filas_a);
+            liberar_memoria_matriz(matriz_b, filas_b);
+
             getch();
             break;
         // case 2: // multiplicar matriz por un escalar
@@ -173,5 +180,15 @@ void sumar_matrices(int** matriz_a, int** matriz_b)
         }
         puts("El resultado de la suma es: \n");
         imprimir_matriz(matriz_suma, filas_a, columnas_a);
+        liberar_memoria_matriz(matriz_suma, filas_a);
     }
+}
+void liberar_memoria_matriz(int** matriz, int filas)
+{
+    // liberando memoria de las columnas por cada fila
+    for (int i = 0; i < filas; i++) {
+        free(matriz[i]);
+    }
+    // liberando memoria de la matriz en si
+    free(matriz);
 }
