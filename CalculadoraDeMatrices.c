@@ -2,17 +2,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define M 2
-#define N 2
-
 int **matriz_a,
     **matriz_b;
 int filas_a, columnas_a,
     filas_b, columnas_b;
-
-// int matriz_a[M][N] = { { 0 } };
-// int matriz_b[M][N] = { { 0 } };
-
 int escalar = 0;
 
 // esenciales
@@ -26,8 +19,9 @@ void imprimir_matriz(int** matriz, int filas, int columnas);
 void sumar_matrices(int** matriz_a, int** matriz_b);
 void mult_matriz_escalar(int** matriz, int escalar);
 void multiplicar_matrices(int** matriz_a, int** matriz_b);
+
 // por usar
-void transpuesta_matriz(int[][N]);
+// void transpuesta_matriz(int[][N]);
 
 int main()
 {
@@ -75,7 +69,7 @@ int main()
 
             liberar_memoria_matriz(matriz_a, filas_a);
             liberar_memoria_matriz(matriz_b, filas_b);
-            
+
             getch();
             break;
         default:
