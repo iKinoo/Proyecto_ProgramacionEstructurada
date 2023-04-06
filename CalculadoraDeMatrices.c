@@ -2,13 +2,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#define M 2
+#define N 2
+
 int **matriz_a,
     **matriz_b;
 int filas_a, columnas_a,
     filas_b, columnas_b;
-
-#define M 2
-#define N 2
 
 // int matriz_a[M][N] = { { 0 } };
 // int matriz_b[M][N] = { { 0 } };
@@ -16,7 +16,7 @@ int filas_a, columnas_a,
 int escalar = 0;
 
 // esenciales
-int** asignar_memoria_matriz(int filas, int columnas);
+int** reservar_memoria_matriz(int filas, int columnas);
 void liberar_memoria_matriz(int** matriz, int filas);
 int** leer_matriz(int* filas, int* columnas);
 // auxiliares
@@ -25,21 +25,9 @@ void imprimir_matriz(int** matriz, int filas, int columnas);
 // funciones principales
 void sumar_matrices(int** matriz_a, int** matriz_b);
 void mult_matriz_escalar(int** matriz, int escalar);
+void multiplicar_matrices(int** matriz_a, int** matriz_b);
 // por usar
 void transpuesta_matriz(int[][N]);
-
-// void mult_matrices(int matriz_a[][N], int matriz_b[][N])
-// {
-//     if (M != N) {
-//         puts("Las matrices no son compatibles");
-//         return;
-//     }
-//     int matriz_mul[M][N] = { { 0 } };
-//     for (int c = 0; c < M; c++) {
-//         for (int f = 0; f < N; f++) {
-//         }
-//     }
-// }
 
 int main()
 {
@@ -69,6 +57,7 @@ int main()
             getch();
             break;
         case 2: // multiplicar matriz por un escalar
+
             matriz_a = leer_matriz(&filas_a, &columnas_a);
             escalar = leer_escalar();
 
@@ -78,12 +67,17 @@ int main()
 
             getch();
             break;
-        // case 3: // multiplicaicion de matrices
-        //     leer_matriz(matriz_a);
-        //     leer_matriz(matriz_b);
-        //     mult_matrices(matriz_a, matriz_b);
-        //     getch();
-        //     break;
+        case 3: // multiplicaicion de matrices
+            matriz_a = leer_matriz(&filas_a, &columnas_a);
+            matriz_b = leer_matriz(&filas_b, &columnas_b);
+
+            multiplicar_matrices(matriz_a, matriz_b);
+
+            liberar_memoria_matriz(matriz_a, filas_a);
+            liberar_memoria_matriz(matriz_b, filas_b);
+            
+            getch();
+            break;
         default:
             puts("Operacion no valida\n");
             getch();
@@ -95,7 +89,7 @@ int main()
 }
 // ------------------------------
 // FUNCIONES ESENCIALES
-int** asignar_memoria_matriz(int filas, int columnas)
+int** reservar_memoria_matriz(int filas, int columnas)
 {
     int** matriz;
 
@@ -130,7 +124,7 @@ int** leer_matriz(int* filas, int* columnas)
     scanf("%d", columnas);
 
     // reservando memoria
-    matriz = asignar_memoria_matriz(*filas, *columnas);
+    matriz = reservar_memoria_matriz(*filas, *columnas);
 
     // leyendo datos
     int t = 1;
@@ -179,18 +173,7 @@ void sumar_matrices(int** matriz_a, int** matriz_b)
 
     } else {
         // reservando memoria para la matriz suma
-        matriz_suma = asignar_memoria_matriz(filas_a, columnas_a);
-
-        // // RESERVANDO MEMORIA PARA LA MATRIZ SUMA
-        // matriz_suma = (int**)malloc(filas_a * sizeof(int*)); // reservando memoria para el No. de filas
-        // if (matriz_suma == NULL) {
-
-        //     puts("Error al asignar memoria");
-        // }
-        // for (int i = 0; i < filas_a; i++) {
-
-        //     matriz_suma[i] = (int*)malloc(columnas_b * sizeof(int)); // por cada fila, reservando memoria para columnas
-        // }
+        matriz_suma = reservar_memoria_matriz(filas_a, columnas_a);
 
         // REALIZANDO LA SUMA
 
@@ -202,13 +185,14 @@ void sumar_matrices(int** matriz_a, int** matriz_b)
 
         puts("El resultado de la suma es: \n");
         imprimir_matriz(matriz_suma, filas_a, columnas_a);
+
         liberar_memoria_matriz(matriz_suma, filas_a);
     }
 }
 
 void mult_matriz_escalar(int** matriz, int escalar)
 {
-    int** matriz_escalada = asignar_memoria_matriz(filas_a, columnas_a);
+    int** matriz_escalada = reservar_memoria_matriz(filas_a, columnas_a);
 
     for (int c = 0; c < filas_a; c++) {
         for (int f = 0; f < columnas_a; f++) {
@@ -218,4 +202,39 @@ void mult_matriz_escalar(int** matriz, int escalar)
     puts("La matriz escalada es:\n");
     imprimir_matriz(matriz_escalada, filas_a, columnas_a);
     liberar_memoria_matriz(matriz_escalada, filas_a);
+}
+void multiplicar_matrices(int** matriz_a, int** matriz_b)
+{
+    int** matriz_multiplicacion;
+    /* A = filas_a × columnas_a         B = filas_b × columnas_b
+    DEBE:       columas_a == filas_b
+    ENTONCES:   M = filas_a × columnas_b
+    */
+    int filas_m = filas_a;
+    int columnas_m = columnas_b;
+
+    if (columnas_a != filas_b) {
+        puts("Las matrices no son compatibles");
+    } else {
+
+        matriz_multiplicacion = reservar_memoria_matriz(filas_m, columnas_m);
+
+        // inicializando matriz en 0
+        for (int i = 0; i < filas_m; i++) {
+            for (int j = 0; j < columnas_m; j++) {
+                matriz_multiplicacion[i][j] = 0;
+            }
+        }
+
+        for (int i = 0; i < filas_a; i++) {
+            for (int j = 0; j < columnas_b; j++) {
+                for (int k = 0; k < columnas_a; k++) {
+                    matriz_multiplicacion[i][j] += (matriz_a[i][k] * matriz_b[k][j]);
+                }
+            }
+        }
+        puts("RESULTADO DE MULTIPLICACION: ");
+        imprimir_matriz(matriz_multiplicacion, filas_m, columnas_m);
+        liberar_memoria_matriz(matriz_multiplicacion, filas_m);
+    }
 }
