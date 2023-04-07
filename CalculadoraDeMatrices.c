@@ -106,6 +106,10 @@ int** reservar_memoria_matriz(int filas, int columnas)
     for (int i = 0; i < filas; i++) {
 
         matriz[i] = (int*)malloc(columnas * sizeof(int)); // por cada fila, reservando memoria para columnas
+        if (matriz[i] == NULL) {
+            puts("Error al asignar memoria");
+            exit(EXIT_FAILURE);
+        }
     }
     return matriz;
 }
