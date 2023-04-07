@@ -7,12 +7,6 @@ int **matriz_a,
 int filas_a, columnas_a,
     filas_b, columnas_b;
 
-#define M 2
-#define N 2
-
-// int matriz_a[M][N] = { { 0 } };
-// int matriz_b[M][N] = { { 0 } };
-
 int escalar = 0;
 
 // esenciales
@@ -27,19 +21,6 @@ void sumar_matrices(int** matriz_a, int** matriz_b);
 void mult_matriz_escalar(int** matriz, int escalar);
 void transpuesta_matriz(int** matriz);
 void multiplicar_matrices(int** matriz_a, int** matriz_b);
-
-// void mult_matrices(int matriz_a[][N], int matriz_b[][N])
-// {
-//     if (M != N) {
-//         puts("Las matrices no son compatibles");
-//         return;
-//     }
-//     int matriz_mul[M][N] = { { 0 } };
-//     for (int c = 0; c < M; c++) {
-//         for (int f = 0; f < N; f++) {
-//         }
-//     }
-// }
 
 int main()
 {
@@ -88,7 +69,7 @@ int main()
             getch();
             break;
         case 4:
-            matriz_a=leer_matriz(&filas_a, &columnas_a);
+            matriz_a = leer_matriz(&filas_a, &columnas_a);
             transpuesta_matriz(matriz_a);
 
             liberar_memoria_matriz(matriz_a, filas_a);
@@ -98,7 +79,6 @@ int main()
             puts("Operacion no valida\n");
             getch();
             break;
-
         }
     } while (1); // what the fuck does this mean
 
@@ -134,8 +114,8 @@ int** leer_matriz(int* filas, int* columnas)
 {
     int** matriz;
 
-        puts("Ingrese el numero de filas de la matriz: ");
-        scanf("%d", filas);
+    puts("Ingrese el numero de filas de la matriz: ");
+    scanf("%d", filas);
 
     puts("Ingrese el numero de columnas de la matriz: ");
     scanf("%d", columnas);
@@ -192,19 +172,6 @@ void sumar_matrices(int** matriz_a, int** matriz_b)
         // reservando memoria para la matriz suma
         matriz_suma = asignar_memoria_matriz(filas_a, columnas_a);
 
-        // // RESERVANDO MEMORIA PARA LA MATRIZ SUMA
-        // matriz_suma = (int**)malloc(filas_a * sizeof(int*)); // reservando memoria para el No. de filas
-        // if (matriz_suma == NULL) {
-
-        //     puts("Error al asignar memoria");
-        // }
-        // for (int i = 0; i < filas_a; i++) {
-
-        //     matriz_suma[i] = (int*)malloc(columnas_b * sizeof(int)); // por cada fila, reservando memoria para columnas
-        // }
-
-        // REALIZANDO LA SUMA
-
         for (int i = 0; i < filas_a; i++) {
             for (int j = 0; j < columnas_a; j++) {
                 matriz_suma[i][j] = matriz_a[i][j] + matriz_b[i][j];
@@ -231,33 +198,32 @@ void mult_matriz_escalar(int** matriz, int escalar)
     liberar_memoria_matriz(matriz_escalada, filas_a);
 }
 
-void multiplicar_matrices(int** matriz_a, int** matriz_b){
-    if (columnas_a!=filas_b){
+void multiplicar_matrices(int** matriz_a, int** matriz_b)
+{
+    if (columnas_a != filas_b) {
         puts("No se pueden multiplicar las matrices, dimensiones diferentes");
         return;
     }
-    int **matriz_producto= asignar_memoria_matriz(filas_a, columnas_b);
-    
-    for (int c=0; c< filas_a; c++){
-        for (int f=0; f< columnas_b; f++){
-            matriz_producto[c][f]=0;
-            for (int k=0; k< columnas_a; k++){
-                matriz_producto[c][f]+= matriz_a[c][k] * matriz_b[k][f];
-            }
+    int** matriz_producto = asignar_memoria_matriz(filas_a, columnas_b);
 
+    for (int c = 0; c < filas_a; c++) {
+        for (int f = 0; f < columnas_b; f++) {
+            matriz_producto[c][f] = 0;
+            for (int k = 0; k < columnas_a; k++) {
+                matriz_producto[c][f] += matriz_a[c][k] * matriz_b[k][f];
+            }
         }
     }
     puts("Matriz producto: ");
     imprimir_matriz(matriz_producto, filas_a, columnas_b);
-
 }
-void transpuesta_matriz(int** matriz){
+void transpuesta_matriz(int** matriz)
+{
+    int** matriz_transpuesta = asignar_memoria_matriz(columnas_a, filas_a);
 
-    int** matriz_transpuesta= asignar_memoria_matriz(columnas_a, filas_a);
-    
-    for (int c=0; c< filas_a ; c++){
-        for (int f=0; f< columnas_a; f++){
-            matriz_transpuesta[f][c]=matriz[c][f];
+    for (int c = 0; c < filas_a; c++) {
+        for (int f = 0; f < columnas_a; f++) {
+            matriz_transpuesta[f][c] = matriz[c][f];
         }
     }
     puts("La transpuesta de la matriz ingresada es:\n");
