@@ -4,6 +4,8 @@
 
 int **matriz_a,
     **matriz_b;
+
+    
 int filas_a, columnas_a,
     filas_b, columnas_b;
 
@@ -98,14 +100,14 @@ int** reservar_memoria_matriz(int filas, int columnas)
     int** matriz;
 
     // RESERVANDO MEMORIA PARA LA MATRIZ
-    matriz = (int**)malloc(filas * sizeof(int*)); // reservando memoria para el No. de filas
+    matriz = (int**)calloc(filas, sizeof(int*)); // reservando memoria para el No. de filas
     if (matriz == NULL) {
         puts("Error al asignar memoria");
         exit(EXIT_FAILURE);
     }
     for (int i = 0; i < filas; i++) {
 
-        matriz[i] = (int*)malloc(columnas * sizeof(int)); // por cada fila, reservando memoria para columnas
+        matriz[i] = (int*)calloc(columnas, sizeof(int)); // por cada fila, reservando memoria para columnas
         if (matriz[i] == NULL) {
             puts("Error al asignar memoria");
             exit(EXIT_FAILURE);
@@ -126,21 +128,21 @@ int** leer_matriz(int* filas, int* columnas)
 {
     int** matriz;
 
-    puts("Ingrese el numero de filas de la matriz [1-4]: ");
+    printf("Ingrese el numero de filas de la matriz [1-4]: ");
     scanf("%d", filas);
 
     while (*filas > 4 || *filas < 1) {
-        puts("[!] Ha ingresado un valor mayor a 4 o menor a 1, intentelo de nuevo");
-        puts("Ingrese el numero de filas de la matriz [1-4]: ");
+        puts("[!] Ha ingresado un valor mayor a 4 o menor a 1, intentelo de nuevo.");
+        printf("Ingrese el numero de filas de la matriz [1-4]: ");
         scanf("%d", filas);
     }
 
-    puts("Ingrese el numero de columnas de la matriz [1-4]: ");
+    printf("Ingrese el numero de columnas de la matriz [1-4]: ");
     scanf("%d", columnas);
 
-     while (*columnas > 4 || *columnas < 1) {
-        puts("[!] Ha ingresado un valor mayor a 4 o menor a 1, intentelo de nuevo");
-        puts("Ingrese el numero de columnas de la matriz [1-4]: ");
+    while (*columnas > 4 || *columnas < 1) {
+        puts("[!] Ha ingresado un valor mayor a 4 o menor a 1, intentelo de nuevo.");
+        printf("Ingrese el numero de columnas de la matriz [1-4]: ");
         scanf("%d", columnas);
     }
 
@@ -153,9 +155,10 @@ int** leer_matriz(int* filas, int* columnas)
 
     for (int i = 0; i < (*filas); i++) {
         for (int j = 0; j < (*columnas); j++) {
-
+            
+            imprimir_matriz(matriz, *filas, *columnas);
             printf("(%d/%d) Ingrese para [%d][%d]: ", t, total, i, j);
-            scanf("%d", &matriz[i][j]);
+            scanf("%d", &matriz[i][j]);        
 
             t++;
         }
@@ -168,9 +171,26 @@ void imprimir_matriz(int** matriz, int filas, int columnas)
 {
     for (int f = 0; f < filas; f++) {
         for (int c = 0; c < columnas; c++) {
+
+            printf("| ");
+
+            if (matriz[f][c] < 10) {
+                printf("  ");
+            } else if (matriz[f][c] < 100) {
+                printf(" ");
+            }
+
             printf("%i ", matriz[f][c]);
+
+            if (c == columnas - 1) {
+                putchar('|');
+            }
         }
         putchar('\n');
+        for (int l = 0; l < columnas; l++) {
+            printf("------");
+        }
+        puts("-");
     }
 }
 // ----------------------------------------
@@ -233,7 +253,6 @@ void multiplicar_matrices(int** matriz_a, int** matriz_b)
 
     for (int c = 0; c < filas_a; c++) {
         for (int f = 0; f < columnas_b; f++) {
-            matriz_producto[c][f] = 0;
             for (int k = 0; k < columnas_a; k++) {
                 matriz_producto[c][f] += matriz_a[c][k] * matriz_b[k][f];
             }
