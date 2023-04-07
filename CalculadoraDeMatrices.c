@@ -94,6 +94,7 @@ int** asignar_memoria_matriz(int filas, int columnas)
     matriz = (int**)malloc(filas * sizeof(int*)); // reservando memoria para el No. de filas
     if (matriz == NULL) {
         puts("Error al asignar memoria");
+        exit(EXIT_FAILURE);
     }
     for (int i = 0; i < filas; i++) {
 
@@ -124,11 +125,12 @@ int** leer_matriz(int* filas, int* columnas)
     matriz = asignar_memoria_matriz(*filas, *columnas);
 
     // leyendo datos
+    int total = (*filas) * (*columnas);
     int t = 1;
-    for (int i = 0; i < (*filas); i++) {
-        int total = (*filas) * (*columnas);
 
+    for (int i = 0; i < (*filas); i++) {
         for (int j = 0; j < (*columnas); j++) {
+            
             printf("(%d/%d) Ingrese para [%d][%d]: ", t, total, i, j);
             scanf("%d", &matriz[i][j]);
 
