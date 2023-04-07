@@ -259,6 +259,7 @@ void multiplicar_matrices(int** matriz_a, int** matriz_b)
     }
     puts("Matriz producto: ");
     imprimir_matriz(matriz_producto, filas_a, columnas_b);
+    liberar_memoria_matriz(matriz_producto, filas_a);
 }
 void transpuesta_matriz(int** matriz)
 {
@@ -271,4 +272,5 @@ void transpuesta_matriz(int** matriz)
     }
     puts("La transpuesta de la matriz ingresada es:\n");
     imprimir_matriz(matriz_transpuesta, columnas_a, filas_a);
+    liberar_memoria_matriz(matriz_transpuesta, columnas_a);
 }
