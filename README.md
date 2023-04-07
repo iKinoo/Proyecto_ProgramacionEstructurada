@@ -2,7 +2,7 @@
 Proyecto final de la materia Programación Estructurada del segundo semestre de la carrera Licenciatura en Ingeniería de Software.
 
 ## Cómo crear una matriz dinámica
-> Nota: Esta documentación se limita a explicar el funcionamiento de las funciones del programa, no el proceso de asignación de memoria dinámica.
+> Nota: Esta documentación se limita a explicar el empleo de las funciones del programa, no el proceso de asignación de memoria dinámica.
 >
 
 Funciones disponibles: 
