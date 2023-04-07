@@ -175,7 +175,7 @@ void sumar_matrices(int** matriz_a, int** matriz_b)
     int** matriz_suma;
 
     if ((filas_a != filas_b) || (columnas_a != columnas_b)) {
-        puts("No se puden sumar las matrices, dimensiones diferentes");
+        puts("No se pueden sumar las matrices, dimensiones diferentes");
 
     } else {
         // reservando memoria para la matriz suma
