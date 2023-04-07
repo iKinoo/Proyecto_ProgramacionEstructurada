@@ -13,9 +13,9 @@ int escalar = 0;
 int** asignar_memoria_matriz(int filas, int columnas);
 void liberar_memoria_matriz(int** matriz, int filas);
 int** leer_matriz(int* filas, int* columnas);
+void imprimir_matriz(int** matriz, int filas, int columnas);
 // auxiliares
 int leer_escalar();
-void imprimir_matriz(int** matriz, int filas, int columnas);
 // funciones principales
 void sumar_matrices(int** matriz_a, int** matriz_b);
 void mult_matriz_escalar(int** matriz, int escalar);
@@ -148,15 +148,6 @@ int** leer_matriz(int* filas, int* columnas)
 
     return matriz;
 }
-// ----------------------------------------
-// FUNCIONES AUXILIARES
-
-int leer_escalar()
-{
-    puts("Ingrese el numero a escalar: ");
-    scanf("%i", &escalar);
-    return escalar;
-}
 void imprimir_matriz(int** matriz, int filas, int columnas)
 {
     for (int f = 0; f < filas; f++) {
@@ -165,6 +156,15 @@ void imprimir_matriz(int** matriz, int filas, int columnas)
         }
         putchar('\n');
     }
+}
+// ----------------------------------------
+// FUNCIONES AUXILIARES
+
+int leer_escalar()
+{
+    puts("Ingrese el numero a escalar: ");
+    scanf("%i", &escalar);
+    return escalar;
 }
 
 // ----------------------------------------
