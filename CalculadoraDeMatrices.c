@@ -27,12 +27,16 @@ int main()
     do {
         int opcion = 0;
 
-        puts("||Calculadora de matrices||\n");
+        puts("|| Calculadora de matrices ||\n");
         puts("Seleccione la operacion a realizar:\n");
-        puts("[1] = Suma de matrices\n[2] = Multiplicacion de matrices por una escalar\n");
-        puts("[3] = Multiplicacion de matrices\n[4] = Transpuesta de una matriz\n");
-        puts("[5] = Inversa de una matriz (Gauss-Jordan)\n[6] = Sistema de ecuaciones (Gauss-Jordan)\n");
-        puts("[7] = Determinante de una matriz\n[8] = Sistema de ecuaciones (Cramer)\n");
+        puts("[1] = Suma de matrices");
+        puts("[2] = Multiplicacion de matrices por una escalar");
+        puts("[3] = Multiplicacion de matrices");
+        puts("[4] = Transpuesta de una matriz");
+        puts("[5] = Inversa de una matriz (Gauss-Jordan)");
+        puts("[6] = Sistema de ecuaciones (Gauss-Jordan)");
+        puts("[7] = Determinante de una matriz");
+        puts("[8] = Sistema de ecuaciones (Cramer)\n");
 
         scanf("%i", &opcion);
 
@@ -62,14 +66,17 @@ int main()
         case 3: // multiplicaicion de matrices
             matriz_a = leer_matriz(&filas_a, &columnas_a);
             matriz_b = leer_matriz(&filas_b, &columnas_b);
+
             multiplicar_matrices(matriz_a, matriz_b);
 
             liberar_memoria_matriz(matriz_a, filas_a);
             liberar_memoria_matriz(matriz_b, filas_b);
+
             getch();
             break;
         case 4:
             matriz_a = leer_matriz(&filas_a, &columnas_a);
+
             transpuesta_matriz(matriz_a);
 
             liberar_memoria_matriz(matriz_a, filas_a);
@@ -130,7 +137,7 @@ int** leer_matriz(int* filas, int* columnas)
 
     for (int i = 0; i < (*filas); i++) {
         for (int j = 0; j < (*columnas); j++) {
-            
+
             printf("(%d/%d) Ingrese para [%d][%d]: ", t, total, i, j);
             scanf("%d", &matriz[i][j]);
 
