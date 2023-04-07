@@ -10,7 +10,7 @@ int filas_a, columnas_a,
 int escalar = 0;
 
 // esenciales
-int** asignar_memoria_matriz(int filas, int columnas);
+int** reservar_memoria_matriz(int filas, int columnas);
 void liberar_memoria_matriz(int** matriz, int filas);
 int** leer_matriz(int* filas, int* columnas);
 void imprimir_matriz(int** matriz, int filas, int columnas);
@@ -93,7 +93,7 @@ int main()
 }
 // ------------------------------
 // FUNCIONES ESENCIALES
-int** asignar_memoria_matriz(int filas, int columnas)
+int** reservar_memoria_matriz(int filas, int columnas)
 {
     int** matriz;
 
@@ -129,7 +129,7 @@ int** leer_matriz(int* filas, int* columnas)
     scanf("%d", columnas);
 
     // reservando memoria
-    matriz = asignar_memoria_matriz(*filas, *columnas);
+    matriz = reservar_memoria_matriz(*filas, *columnas);
 
     // leyendo datos
     int total = (*filas) * (*columnas);
@@ -179,7 +179,7 @@ void sumar_matrices(int** matriz_a, int** matriz_b)
 
     } else {
         // reservando memoria para la matriz suma
-        matriz_suma = asignar_memoria_matriz(filas_a, columnas_a);
+        matriz_suma = reservar_memoria_matriz(filas_a, columnas_a);
 
         for (int i = 0; i < filas_a; i++) {
             for (int j = 0; j < columnas_a; j++) {
@@ -195,7 +195,7 @@ void sumar_matrices(int** matriz_a, int** matriz_b)
 
 void mult_matriz_escalar(int** matriz, int escalar)
 {
-    int** matriz_escalada = asignar_memoria_matriz(filas_a, columnas_a);
+    int** matriz_escalada = reservar_memoria_matriz(filas_a, columnas_a);
 
     for (int c = 0; c < filas_a; c++) {
         for (int f = 0; f < columnas_a; f++) {
@@ -213,7 +213,7 @@ void multiplicar_matrices(int** matriz_a, int** matriz_b)
         puts("No se pueden multiplicar las matrices, dimensiones diferentes");
         return;
     }
-    int** matriz_producto = asignar_memoria_matriz(filas_a, columnas_b);
+    int** matriz_producto = reservar_memoria_matriz(filas_a, columnas_b);
 
     for (int c = 0; c < filas_a; c++) {
         for (int f = 0; f < columnas_b; f++) {
@@ -228,7 +228,7 @@ void multiplicar_matrices(int** matriz_a, int** matriz_b)
 }
 void transpuesta_matriz(int** matriz)
 {
-    int** matriz_transpuesta = asignar_memoria_matriz(columnas_a, filas_a);
+    int** matriz_transpuesta = reservar_memoria_matriz(columnas_a, filas_a);
 
     for (int c = 0; c < filas_a; c++) {
         for (int f = 0; f < columnas_a; f++) {
