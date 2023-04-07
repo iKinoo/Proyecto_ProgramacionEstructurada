@@ -4,7 +4,7 @@
 
 int **matriz_a,
     **matriz_b;
- 
+
 int filas_a, columnas_a,
     filas_b, columnas_b;
 
@@ -42,8 +42,8 @@ int main()
         scanf("%i", &opcion);
 
         switch (opcion) {
-        case 1: // sumar matrices
 
+        case 1: // sumar matrices
             matriz_a = leer_matriz(&filas_a, &columnas_a);
             matriz_b = leer_matriz(&filas_b, &columnas_b);
 
@@ -81,6 +81,7 @@ int main()
             transpuesta_matriz(matriz_a);
 
             liberar_memoria_matriz(matriz_a, filas_a);
+
             getch();
             break;
         default:
@@ -154,10 +155,10 @@ int** leer_matriz(int* filas, int* columnas)
 
     for (int i = 0; i < (*filas); i++) {
         for (int j = 0; j < (*columnas); j++) {
-            
+
             imprimir_matriz(matriz, *filas, *columnas);
             printf("(%d/%d) Ingrese para [%d][%d]: ", t, total, i, j);
-            scanf("%d", &matriz[i][j]);        
+            scanf("%d", &matriz[i][j]);
 
             t++;
         }
@@ -221,9 +222,14 @@ void sumar_matrices(int** matriz_a, int** matriz_b)
                 matriz_suma[i][j] = matriz_a[i][j] + matriz_b[i][j];
             }
         }
+        puts("Matriz A:");
+        imprimir_matriz(matriz_a, filas_a, columnas_a);
+        puts("Matriz B:");
+        imprimir_matriz(matriz_b, filas_b, columnas_b);
 
         puts("El resultado de la suma es: \n");
         imprimir_matriz(matriz_suma, filas_a, columnas_a);
+        
         liberar_memoria_matriz(matriz_suma, filas_a);
     }
 }
