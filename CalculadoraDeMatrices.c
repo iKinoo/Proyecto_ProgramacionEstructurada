@@ -4,8 +4,7 @@
 
 int **matriz_a,
     **matriz_b;
-
-    
+ 
 int filas_a, columnas_a,
     filas_b, columnas_b;
 
@@ -17,7 +16,7 @@ void liberar_memoria_matriz(int** matriz, int filas);
 int** leer_matriz(int* filas, int* columnas);
 void imprimir_matriz(int** matriz, int filas, int columnas);
 // auxiliares
-int leer_escalar();
+int leer_escalar(); // <-- realmente es necesario?
 // funciones principales
 void sumar_matrices(int** matriz_a, int** matriz_b);
 void mult_matriz_escalar(int** matriz, int escalar);
