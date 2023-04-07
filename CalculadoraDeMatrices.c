@@ -126,11 +126,23 @@ int** leer_matriz(int* filas, int* columnas)
 {
     int** matriz;
 
-    puts("Ingrese el numero de filas de la matriz: ");
+    puts("Ingrese el numero de filas de la matriz [1-4]: ");
     scanf("%d", filas);
 
-    puts("Ingrese el numero de columnas de la matriz: ");
+    while (*filas > 4 || *filas < 1) {
+        puts("[!] Ha ingresado un valor mayor a 4 o menor a 1, intentelo de nuevo");
+        puts("Ingrese el numero de filas de la matriz [1-4]: ");
+        scanf("%d", filas);
+    }
+
+    puts("Ingrese el numero de columnas de la matriz [1-4]: ");
     scanf("%d", columnas);
+
+     while (*columnas > 4 || *columnas < 1) {
+        puts("[!] Ha ingresado un valor mayor a 4 o menor a 1, intentelo de nuevo");
+        puts("Ingrese el numero de columnas de la matriz [1-4]: ");
+        scanf("%d", columnas);
+    }
 
     // reservando memoria
     matriz = reservar_memoria_matriz(*filas, *columnas);
