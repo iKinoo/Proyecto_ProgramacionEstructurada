@@ -169,29 +169,33 @@ int** leer_matriz(int* filas, int* columnas)
 }
 void imprimir_matriz(int** matriz, int filas, int columnas)
 {
+    putchar('/');
+    for (int l = 0; l < columnas; l++) {
+        printf("     ");
+    }
+    puts(" \\");
+
     for (int f = 0; f < filas; f++) {
+        printf("| ");
         for (int c = 0; c < columnas; c++) {
 
-            printf("| ");
-
             if (matriz[f][c] < 10) {
-                printf("  ");
+                printf("   ");
             } else if (matriz[f][c] < 100) {
+                printf("  ");
+            } else if (matriz[f][c] < 1000) {
                 printf(" ");
             }
 
             printf("%i ", matriz[f][c]);
-
-            if (c == columnas - 1) {
-                putchar('|');
-            }
         }
-        putchar('\n');
-        for (int l = 0; l < columnas; l++) {
-            printf("------");
-        }
-        puts("-");
+        puts("|");
     }
+    putchar('\\');
+    for (int l = 0; l < columnas; l++) {
+        printf("     ");
+    }
+    puts(" /");
 }
 // ----------------------------------------
 // FUNCIONES AUXILIARES
@@ -229,7 +233,7 @@ void sumar_matrices(int** matriz_a, int** matriz_b)
 
         puts("El resultado de la suma es: \n");
         imprimir_matriz(matriz_suma, filas_a, columnas_a);
-        
+
         liberar_memoria_matriz(matriz_suma, filas_a);
     }
 }
