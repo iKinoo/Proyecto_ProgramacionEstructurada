@@ -9,11 +9,14 @@ int filas_a, columnas_a,
     filas_b, columnas_b;
 
 int escalar = 0;
+int nVariables = 0;
 
 // esenciales
 int** reservar_memoria_matriz(int filas, int columnas);
 void liberar_memoria_matriz(int** matriz, int filas);
-int** leer_matriz(int* filas, int* columnas);
+void leer_dimensiones(int* filas, int* columnas);
+int** leer_matriz(int filas, int columnas);
+void validarDimension(int* dimension);
 void imprimir_matriz(int** matriz, int filas, int columnas);
 // auxiliares
 int leer_escalar(); // <-- realmente es necesario?
@@ -44,8 +47,11 @@ int main()
         switch (opcion) {
 
         case 1: // sumar matrices
-            matriz_a = leer_matriz(&filas_a, &columnas_a);
-            matriz_b = leer_matriz(&filas_b, &columnas_b);
+            leer_dimensiones(&filas_a, &columnas_a);
+            matriz_a = leer_matriz(filas_a, columnas_a);
+
+            leer_dimensiones(&filas_b, &columnas_b);
+            matriz_b = leer_matriz(filas_b, columnas_b);
 
             sumar_matrices(matriz_a, matriz_b);
 
@@ -55,7 +61,9 @@ int main()
             getch();
             break;
         case 2: // multiplicar matriz por un escalar
-            matriz_a = leer_matriz(&filas_a, &columnas_a);
+            leer_dimensiones(&filas_a, &columnas_a);
+            matriz_a = leer_matriz(filas_a, columnas_a);
+
             escalar = leer_escalar();
 
             mult_matriz_escalar(matriz_a, escalar);
@@ -65,8 +73,11 @@ int main()
             getch();
             break;
         case 3: // multiplicaicion de matrices
-            matriz_a = leer_matriz(&filas_a, &columnas_a);
-            matriz_b = leer_matriz(&filas_b, &columnas_b);
+            leer_dimensiones(&filas_a, &columnas_a);
+            matriz_a = leer_matriz(filas_a, columnas_a);
+
+            leer_dimensiones(&filas_b, &columnas_b);
+            matriz_b = leer_matriz(filas_b, columnas_b);
 
             multiplicar_matrices(matriz_a, matriz_b);
 
@@ -75,8 +86,10 @@ int main()
 
             getch();
             break;
+
         case 4:
-            matriz_a = leer_matriz(&filas_a, &columnas_a);
+            leer_dimensiones(&filas_a, &columnas_a);
+            matriz_a = leer_matriz(filas_a, columnas_a);
 
             transpuesta_matriz(matriz_a);
 
@@ -84,7 +97,21 @@ int main()
 
             getch();
             break;
+
+        case 6:
+            puts("Ingrese el numero de variables del sistema: ");
+            scanf("%d", &nVariables);
+            validarDimension(&nVariables);
+
+            matriz_a = leer_matriz(nVariables, nVariables + 1);
+            
+
+            liberar_memoria_matriz(matriz_a, nVariables);
+            getch();
+            break;
+
         default:
+
             puts("Operacion no valida\n");
             getch();
             break;
@@ -124,46 +151,47 @@ void liberar_memoria_matriz(int** matriz, int filas)
     // liberando memoria de la matriz en si
     free(matriz);
 }
-int** leer_matriz(int* filas, int* columnas)
+void validarDimension(int* dimension)
 {
-    int** matriz;
-
+    while (*dimension > 4 || *dimension < 1) {
+        puts("[!] Ha ingresado un valor mayor a 4 o menor a 1, intentelo de nuevo.");
+        printf("Ingrese el valor correspondiente [1-4]: ");
+        scanf("%d", dimension);
+    }
+}
+void leer_dimensiones(int* filas, int* columnas)
+{
     printf("Ingrese el numero de filas de la matriz [1-4]: ");
     scanf("%d", filas);
-
-    while (*filas > 4 || *filas < 1) {
-        puts("[!] Ha ingresado un valor mayor a 4 o menor a 1, intentelo de nuevo.");
-        printf("Ingrese el numero de filas de la matriz [1-4]: ");
-        scanf("%d", filas);
-    }
+    validarDimension(filas);
 
     printf("Ingrese el numero de columnas de la matriz [1-4]: ");
     scanf("%d", columnas);
+    validarDimension(columnas);
+}
 
-    while (*columnas > 4 || *columnas < 1) {
-        puts("[!] Ha ingresado un valor mayor a 4 o menor a 1, intentelo de nuevo.");
-        printf("Ingrese el numero de columnas de la matriz [1-4]: ");
-        scanf("%d", columnas);
-    }
+int** leer_matriz(int filas, int columnas)
+{
+    int** matriz;
 
     // reservando memoria
-    matriz = reservar_memoria_matriz(*filas, *columnas);
+    matriz = reservar_memoria_matriz(filas, columnas);
 
     // leyendo datos
-    int total = (*filas) * (*columnas);
+    int total = (filas) * (columnas);
     int t = 1;
 
-    for (int i = 0; i < (*filas); i++) {
-        for (int j = 0; j < (*columnas); j++) {
+    for (int i = 0; i < (filas); i++) {
+        for (int j = 0; j < (columnas); j++) {
 
-            imprimir_matriz(matriz, *filas, *columnas);
+            imprimir_matriz(matriz, filas, columnas);
             printf("(%d/%d) Ingrese para [%d][%d]: ", t, total, i, j);
             scanf("%d", &matriz[i][j]);
 
             t++;
         }
     }
-    imprimir_matriz(matriz, *filas, *columnas);
+    imprimir_matriz(matriz, filas, columnas);
 
     return matriz;
 }
