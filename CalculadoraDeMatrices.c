@@ -1,9 +1,10 @@
 #include <conio.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <math.h>
 
 float **matriz_a,
-    **matriz_b;
+      **matriz_b;
 
 int filas_a, columnas_a,
     filas_b, columnas_b;
@@ -19,12 +20,18 @@ float** leer_matriz(int filas, int columnas);
 void validarDimension(int* dimension);
 void imprimir_matriz(float** matriz, int filas, int columnas);
 // auxiliares
-int leer_escalar(); // <-- realmente es necesario?
+int leer_escalar(); // <-- realmente es necesario? solo si se va a utilizar en las demas funciones.
 // funciones principales
 void sumar_matrices(float** matriz_a, float** matriz_b);
 void mult_matriz_escalar(float** matriz, int escalar);
 void transpuesta_matriz(float** matriz);
 void multiplicar_matrices(float** matriz_a, float** matriz_b);
+
+// Conjunto de funciones para calcular la determinante 
+float determinante_sarrus_matriz(float** matriz);
+void determinante_matriz(float** matriz);
+float tomar_fila(float** matriz, int filas, int columnas);
+float disminuir_matriz(float** matriz,int filas,int columnas, int limite, float escalar);
 
 int main()
 {
@@ -108,7 +115,14 @@ int main()
             liberar_memoria_matriz(matriz_a, nVariables);
             getch();
             break;
+        case 7:
+            leer_dimensiones(&filas_a, &columnas_a);
+            matriz_a = leer_matriz(filas_a, columnas_a);
 
+            determinante_matriz(matriz_a);
+
+            liberar_memoria_matriz(matriz_a, filas_a);
+            break;
         default:
 
             puts("Operacion no valida\n");
@@ -311,3 +325,66 @@ void transpuesta_matriz(float** matriz)
     imprimir_matriz(matriz_transpuesta, columnas_a, filas_a);
     liberar_memoria_matriz(matriz_transpuesta, columnas_a);
 }
+
+
+float determinante_sarrus_matriz(float** matriz){
+    float dp = matriz[0][0] * matriz[1][1] * matriz[2][2] +
+             matriz[1][0] * matriz[2][1] * matriz[0][2] +
+             matriz[2][0] * matriz[0][1] * matriz[1][2];
+
+    float ds = matriz[0][2] * matriz[1][1] * matriz[2][0] +
+             matriz[1][2] * matriz[2][1] * matriz[0][0] +
+             matriz[2][2] * matriz[0][1] * matriz[1][0];
+    return dp-ds;
+}
+
+float disminuir_matriz(float** matriz,int filas,int columnas,int limite, float escalar){
+    int band=0;
+    float cofactor=0;
+    float** submatriz = reservar_memoria_matriz(filas, columnas);
+    for(int f = 0, i=0; f < filas_a && i < filas; f++, i++){ 
+
+        (f == limite && band == 0) ? (f++, band = 1) : 0;
+
+        for (int c = 1, j=0; c < columnas_a && j < columnas; c++, j++){
+            submatriz [i][j] = matriz [f][c];
+        }
+    }
+    if (filas == 3 && columnas == 3){
+        cofactor = pow(-1 , limite) * escalar * determinante_sarrus_matriz(submatriz);
+        liberar_memoria_matriz(submatriz, filas);
+        return cofactor;
+    }else{
+        return tomar_fila(submatriz, filas, columnas);
+    }
+}
+
+float tomar_fila(float** matriz, int filas, int columnas){
+    float det_final=0;
+    //Enviamos un valor de la fila elegida
+    for (int f = 0; f < filas_a; f++){
+        det_final += disminuir_matriz(matriz, (filas-1), (columnas-1), f, matriz[f][0]); //llamada a la funcion para obtener su submatriz
+    }
+    return det_final;
+}
+
+
+void determinante_matriz(float** matriz){
+    //Metodo para matrices 2x2
+    float determinante=0;
+    if (filas_a == 2 && columnas_a == 2){
+        float dp = matriz[0][0] * matriz[1][1];
+        float ds = matriz[1][0] * matriz[0][1];
+        determinante = dp-ds;
+     //Metodo para matrices 3x3 metodo por cofactores
+    }else if(filas_a == 3 && columnas_a == 3){
+        determinante = determinante_sarrus_matriz(matriz);
+     //Metodo para dimensiones mayores a 3x3
+    }else{
+        determinante = tomar_fila(matriz, filas_a, columnas_a);
+    }
+    printf("El determinante de la matriz es: [%.2f]\n", determinante);
+    return;
+}
+
+	
