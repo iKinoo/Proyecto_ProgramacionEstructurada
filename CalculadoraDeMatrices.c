@@ -27,6 +27,7 @@ void mult_matriz_escalar(float** matriz, int escalar);
 void transpuesta_matriz(float** matriz);
 void multiplicar_matrices(float** matriz_a, float** matriz_b);
 
+// Conjunto de funciones para calcular la determinante 
 float determinante_sarrus_matriz(float** matriz);
 void determinante_matriz(float** matriz);
 float tomar_fila(float** matriz, int filas, int columnas);
