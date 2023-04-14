@@ -25,6 +25,7 @@ void sumar_matrices(int** matriz_a, int** matriz_b);
 void mult_matriz_escalar(int** matriz, int escalar);
 void transpuesta_matriz(int** matriz);
 void multiplicar_matrices(int** matriz_a, int** matriz_b);
+void resolverGaussJordan(int** matriz_a);
 
 int main()
 {
@@ -104,7 +105,7 @@ int main()
             validarDimension(&nVariables);
 
             matriz_a = leer_matriz(nVariables, nVariables + 1);
-            
+            resolverGaussJordan(matriz_a);
 
             liberar_memoria_matriz(matriz_a, nVariables);
             getch();
@@ -311,4 +312,31 @@ void transpuesta_matriz(int** matriz)
     puts("La transpuesta de la matriz ingresada es:\n");
     imprimir_matriz(matriz_transpuesta, columnas_a, filas_a);
     liberar_memoria_matriz(matriz_transpuesta, columnas_a);
+}
+void resolverGaussJordan(int** matriz_a)
+{
+    int pivote = 0;
+    int i = 0;
+    int coeficientePivote = 0, coeficienteACero = 0;
+
+    while (pivote < nVariables) {
+        printf("\n\nPivote %d: %d\n", pivote + 1, matriz_a[pivote][i]);
+
+        for (int j = 0; j < nVariables; j++) {
+            if (j == pivote) {
+                continue;
+            }
+            coeficientePivote = matriz_a[pivote][i]; // coeficiente del pivote
+            coeficienteACero = matriz_a[j][i]; // coeficiente al que tenemos que convertir en 0
+
+            for (int k = 0; k < nVariables + 1; k++) {
+                matriz_a[j][k] = (coeficientePivote * matriz_a[j][k]) + (coeficienteACero * matriz_a[pivote][k] * (-1));
+            }
+            puts("");
+        }
+        pivote++;
+        i++;
+    }
+   
+    imprimir_matriz(matriz_a, nVariables, nVariables + 1);
 }
