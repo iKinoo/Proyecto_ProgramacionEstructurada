@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-int **matriz_a,
+float **matriz_a,
     **matriz_b;
 
 int filas_a, columnas_a,
@@ -12,19 +12,19 @@ int escalar = 0;
 int nVariables = 0;
 
 // esenciales
-int** reservar_memoria_matriz(int filas, int columnas);
-void liberar_memoria_matriz(int** matriz, int filas);
+float** reservar_memoria_matriz(int filas, int columnas);
+void liberar_memoria_matriz(float** matriz, int filas);
 void leer_dimensiones(int* filas, int* columnas);
-int** leer_matriz(int filas, int columnas);
+float** leer_matriz(int filas, int columnas);
 void validarDimension(int* dimension);
-void imprimir_matriz(int** matriz, int filas, int columnas);
+void imprimir_matriz(float** matriz, int filas, int columnas);
 // auxiliares
 int leer_escalar(); // <-- realmente es necesario?
 // funciones principales
-void sumar_matrices(int** matriz_a, int** matriz_b);
-void mult_matriz_escalar(int** matriz, int escalar);
-void transpuesta_matriz(int** matriz);
-void multiplicar_matrices(int** matriz_a, int** matriz_b);
+void sumar_matrices(float** matriz_a, float** matriz_b);
+void mult_matriz_escalar(float** matriz, int escalar);
+void transpuesta_matriz(float** matriz);
+void multiplicar_matrices(float** matriz_a, float** matriz_b);
 
 int main()
 {
@@ -104,7 +104,6 @@ int main()
             validarDimension(&nVariables);
 
             matriz_a = leer_matriz(nVariables, nVariables + 1);
-            
 
             liberar_memoria_matriz(matriz_a, nVariables);
             getch();
@@ -122,19 +121,19 @@ int main()
 }
 // ------------------------------
 // FUNCIONES ESENCIALES
-int** reservar_memoria_matriz(int filas, int columnas)
+float** reservar_memoria_matriz(int filas, int columnas)
 {
-    int** matriz;
+    float** matriz;
 
     // RESERVANDO MEMORIA PARA LA MATRIZ
-    matriz = (int**)calloc(filas, sizeof(int*)); // reservando memoria para el No. de filas
+    matriz = (float**)calloc(filas, sizeof(float*)); // reservando memoria para el No. de filas
     if (matriz == NULL) {
         puts("Error al asignar memoria");
         exit(EXIT_FAILURE);
     }
     for (int i = 0; i < filas; i++) {
 
-        matriz[i] = (int*)calloc(columnas, sizeof(int)); // por cada fila, reservando memoria para columnas
+        matriz[i] = (float*)calloc(columnas, sizeof(int)); // por cada fila, reservando memoria para columnas
         if (matriz[i] == NULL) {
             puts("Error al asignar memoria");
             exit(EXIT_FAILURE);
@@ -142,7 +141,7 @@ int** reservar_memoria_matriz(int filas, int columnas)
     }
     return matriz;
 }
-void liberar_memoria_matriz(int** matriz, int filas)
+void liberar_memoria_matriz(float** matriz, int filas)
 {
     // liberando memoria de las columnas por cada fila
     for (int i = 0; i < filas; i++) {
@@ -170,9 +169,9 @@ void leer_dimensiones(int* filas, int* columnas)
     validarDimension(columnas);
 }
 
-int** leer_matriz(int filas, int columnas)
+float** leer_matriz(int filas, int columnas)
 {
-    int** matriz;
+    float** matriz;
 
     // reservando memoria
     matriz = reservar_memoria_matriz(filas, columnas);
@@ -186,7 +185,7 @@ int** leer_matriz(int filas, int columnas)
 
             imprimir_matriz(matriz, filas, columnas);
             printf("(%d/%d) Ingrese para [%d][%d]: ", t, total, i, j);
-            scanf("%d", &matriz[i][j]);
+            scanf("%f", &matriz[i][j]);
 
             t++;
         }
@@ -195,11 +194,11 @@ int** leer_matriz(int filas, int columnas)
 
     return matriz;
 }
-void imprimir_matriz(int** matriz, int filas, int columnas)
+void imprimir_matriz(float** matriz, int filas, int columnas)
 {
-    putchar('/');
+    printf("/   ");
     for (int l = 0; l < columnas; l++) {
-        printf("     ");
+        printf("       ");
     }
     puts(" \\");
 
@@ -207,23 +206,23 @@ void imprimir_matriz(int** matriz, int filas, int columnas)
         printf("| ");
         for (int c = 0; c < columnas; c++) {
 
-            if (matriz[f][c] < 10) {
+            if (matriz[f][c] < 10 && matriz[f][c] >= 0) {
                 printf("   ");
-            } else if (matriz[f][c] < 100) {
+            } else if (matriz[f][c] < 100 && matriz[f][c] >= 0) {
                 printf("  ");
-            } else if (matriz[f][c] < 1000) {
+            } else if (matriz[f][c] < 1000 && matriz[f][c] >= 0) {
                 printf(" ");
             }
 
-            printf("%i ", matriz[f][c]);
+            printf("%.2f ", matriz[f][c]);
         }
         puts("|");
     }
     putchar('\\');
     for (int l = 0; l < columnas; l++) {
-        printf("     ");
+        printf("       ");
     }
-    puts(" /");
+    puts("    /");
 }
 // ----------------------------------------
 // FUNCIONES AUXILIARES
@@ -238,9 +237,9 @@ int leer_escalar()
 // ----------------------------------------
 // FUNCIONES PRINCIPALES
 
-void sumar_matrices(int** matriz_a, int** matriz_b)
+void sumar_matrices(float** matriz_a, float** matriz_b)
 {
-    int** matriz_suma;
+    float** matriz_suma;
 
     if ((filas_a != filas_b) || (columnas_a != columnas_b)) {
         puts("No se pueden sumar las matrices, dimensiones diferentes");
@@ -266,9 +265,9 @@ void sumar_matrices(int** matriz_a, int** matriz_b)
     }
 }
 
-void mult_matriz_escalar(int** matriz, int escalar)
+void mult_matriz_escalar(float** matriz, int escalar)
 {
-    int** matriz_escalada = reservar_memoria_matriz(filas_a, columnas_a);
+    float** matriz_escalada = reservar_memoria_matriz(filas_a, columnas_a);
 
     for (int c = 0; c < filas_a; c++) {
         for (int f = 0; f < columnas_a; f++) {
@@ -280,13 +279,13 @@ void mult_matriz_escalar(int** matriz, int escalar)
     liberar_memoria_matriz(matriz_escalada, filas_a);
 }
 
-void multiplicar_matrices(int** matriz_a, int** matriz_b)
+void multiplicar_matrices(float** matriz_a, float** matriz_b)
 {
     if (columnas_a != filas_b) {
         puts("No se pueden multiplicar las matrices, dimensiones diferentes");
         return;
     }
-    int** matriz_producto = reservar_memoria_matriz(filas_a, columnas_b);
+    float** matriz_producto = reservar_memoria_matriz(filas_a, columnas_b);
 
     for (int c = 0; c < filas_a; c++) {
         for (int f = 0; f < columnas_b; f++) {
@@ -299,9 +298,9 @@ void multiplicar_matrices(int** matriz_a, int** matriz_b)
     imprimir_matriz(matriz_producto, filas_a, columnas_b);
     liberar_memoria_matriz(matriz_producto, filas_a);
 }
-void transpuesta_matriz(int** matriz)
+void transpuesta_matriz(float** matriz)
 {
-    int** matriz_transpuesta = reservar_memoria_matriz(columnas_a, filas_a);
+    float** matriz_transpuesta = reservar_memoria_matriz(columnas_a, filas_a);
 
     for (int c = 0; c < filas_a; c++) {
         for (int f = 0; f < columnas_a; f++) {
