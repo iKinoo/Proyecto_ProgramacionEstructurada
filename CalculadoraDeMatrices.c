@@ -21,6 +21,8 @@ void validarDimension(int* dimension);
 void imprimir_matriz(float** matriz, int filas, int columnas);
 // auxiliares
 int leer_escalar(); // <-- realmente es necesario? solo si se va a utilizar en las demas funciones.
+
+
 // funciones principales
 void sumar_matrices(float** matriz_a, float** matriz_b);
 void mult_matriz_escalar(float** matriz, int escalar);
@@ -325,11 +327,7 @@ void transpuesta_matriz(float** matriz)
     liberar_memoria_matriz(matriz_transpuesta, columnas_a);
 }
 
-////////////////////////////////////////////////////////////////////////
 
-
-
-// Este tiene que regresar un dato
 float determinante_sarrus_matriz(float** matriz){
     float dp = matriz[0][0] * matriz[1][1] * matriz[2][2] +
              matriz[1][0] * matriz[2][1] * matriz[0][2] +
@@ -342,9 +340,6 @@ float determinante_sarrus_matriz(float** matriz){
 }
 
 
-
-// eliminar el llamado a filas y columnas
-//Pendiente inicializar
 float disminuir_matriz(float** matriz,int filas,int columnas,int limite, float escalar){
     int band=0;
     float cofactor=0;
@@ -375,7 +370,7 @@ float disminuir_matriz(float** matriz,int filas,int columnas,int limite, float e
 
 float tomar_fila(float** matriz, int filas, int columnas){
     float det_final=0;
-    //Enviamos un valor de la fila elegidas
+    //Enviamos un valor de la fila elegida
     for (int f = 0; f < filas_a; f++){
         det_final += disminuir_matriz(matriz, (filas-1), (columnas-1), f, matriz[f][0]); //llamada a la funcion para obtener su escalada
 		printf("determinante en el ciclo: %i = %f", f, det_final);
