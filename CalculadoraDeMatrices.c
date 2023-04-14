@@ -21,8 +21,6 @@ void validarDimension(int* dimension);
 void imprimir_matriz(float** matriz, int filas, int columnas);
 // auxiliares
 int leer_escalar(); // <-- realmente es necesario? solo si se va a utilizar en las demas funciones.
-
-
 // funciones principales
 void sumar_matrices(float** matriz_a, float** matriz_b);
 void mult_matriz_escalar(float** matriz, int escalar);
@@ -339,28 +337,20 @@ float determinante_sarrus_matriz(float** matriz){
     return dp-ds;
 }
 
-
 float disminuir_matriz(float** matriz,int filas,int columnas,int limite, float escalar){
     int band=0;
     float cofactor=0;
     float** submatriz = reservar_memoria_matriz(filas, columnas);
-    for(int f = 0, i=0; f < filas_a && i < filas; f++, i++){
-        if (f == limite && band == 0){
-            f++;
-            band = 1;
-        }
+    for(int f = 0, i=0; f < filas_a && i < filas; f++, i++){ 
+
+        (f == limite && band == 0) ? (f++, band = 1) : 0;
+
         for (int c = 1, j=0; c < columnas_a && j < columnas; c++, j++){
             submatriz [i][j] = matriz [f][c];
-            printf(" submatriz = (%i, %i) matriz = (%i, %i)\n", i, j, f, c);
         }
     }
-
-    imprimir_matriz(submatriz, filas, columnas);
-    
     if (filas == 3 && columnas == 3){
         cofactor = pow(-1 , limite) * escalar * determinante_sarrus_matriz(submatriz);
-        printf("[%.2f], [%.2f], [%.2f] limite: [%i]\n", pow(-1, limite), escalar, determinante_sarrus_matriz(submatriz), limite);
-        printf("El cofactor es: %.2f\n", cofactor);
         liberar_memoria_matriz(submatriz, filas);
         return cofactor;
     }else{
@@ -372,29 +362,28 @@ float tomar_fila(float** matriz, int filas, int columnas){
     float det_final=0;
     //Enviamos un valor de la fila elegida
     for (int f = 0; f < filas_a; f++){
-        det_final += disminuir_matriz(matriz, (filas-1), (columnas-1), f, matriz[f][0]); //llamada a la funcion para obtener su escalada
-		printf("determinante en el ciclo: %i = %f", f, det_final);
+        det_final += disminuir_matriz(matriz, (filas-1), (columnas-1), f, matriz[f][0]); //llamada a la funcion para obtener su submatriz
     }
-    printf("[El determinante de la funcion tomar fila: [%.2f]\n", det_final);
     return det_final;
 }
 
 
 void determinante_matriz(float** matriz){
     //Metodo para matrices 2x2
+    float determinante=0;
     if (filas_a == 2 && columnas_a == 2){
         float dp = matriz[0][0] * matriz[1][1];
         float ds = matriz[1][0] * matriz[0][1];
-        printf("[1] El determinante de la matriz es: [%.2f]\n", dp - ds);
-        return;
+        determinante = dp-ds;
      //Metodo para matrices 3x3 metodo por cofactores
     }else if(filas_a == 3 && columnas_a == 3){
-        printf("[2] La determinante de la matriz es: %.2f\n", determinante_sarrus_matriz(matriz));
-        return;
+        determinante = determinante_sarrus_matriz(matriz);
      //Metodo para dimensiones mayores a 3x3
     }else{
-        printf("[3] El determinante final de la matriz es: [%.2f]\n", tomar_fila(matriz, filas_a, columnas_a));
-        return;
+        determinante = tomar_fila(matriz, filas_a, columnas_a);
     }
-
+    printf("El determinante de la matriz es: [%.2f]\n", determinante);
+    return;
 }
+
+	
