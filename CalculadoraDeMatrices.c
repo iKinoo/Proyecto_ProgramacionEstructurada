@@ -166,7 +166,7 @@ void liberar_memoria_matriz(float** matriz, int filas)
 }
 void validarDimension(int* dimension)
 {
-    while (*dimension > 10 || *dimension < 1) {
+    while (*dimension > 4 || *dimension < 1) {
         puts("[!] Ha ingresado un valor mayor a 4 o menor a 1, intentelo de nuevo.");
         printf("Ingrese el valor correspondiente [1-4]: ");
         scanf("%d", dimension);
