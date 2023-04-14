@@ -135,7 +135,7 @@ float** reservar_memoria_matriz(int filas, int columnas)
     }
     for (int i = 0; i < filas; i++) {
 
-        matriz[i] = (float*)calloc(columnas, sizeof(int)); // por cada fila, reservando memoria para columnas
+        matriz[i] = (float*)calloc(columnas, sizeof(float)); // por cada fila, reservando memoria para columnas
         if (matriz[i] == NULL) {
             puts("Error al asignar memoria");
             exit(EXIT_FAILURE);
@@ -179,7 +179,7 @@ float** leer_matriz(int filas, int columnas)
     matriz = reservar_memoria_matriz(filas, columnas);
 
     // leyendo datos
-    int total = (filas) * (columnas);
+    int total = filas * columnas;
     int t = 1;
 
     for (int i = 0; i < (filas); i++) {
