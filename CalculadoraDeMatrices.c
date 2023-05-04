@@ -9,9 +9,6 @@ float **matriz_a,
 int filas_a, columnas_a,
     filas_b, columnas_b;
 
-int escalar = 0;
-int nVariables = 0;
-
 // esenciales
 float** reservar_memoria_matriz(int filas, int columnas);
 void liberar_memoria_matriz(float** matriz, int filas);
@@ -20,14 +17,14 @@ float** leer_matriz(int filas, int columnas);
 void validarDimension(int* dimension);
 void imprimir_matriz(float** matriz, int filas, int columnas);
 // auxiliares
-int leer_escalar(); // <-- realmente es necesario? solo si se va a utilizar en las demas funciones.
+void leer_escalar(int* escalar); // <-- realmente es necesario? solo si se va a utilizar en las demas funciones.
 // funciones principales
 void sumar_matrices(float** matriz_a, float** matriz_b);
 void mult_matriz_escalar(float** matriz, int escalar);
 void transpuesta_matriz(float** matriz);
 void multiplicar_matrices(float** matriz_a, float** matriz_b);
 void inversaGaussJordan(float** matriz_a);
-void resolverGaussJordan(float** matriz_a);
+void resolverGaussJordan(float** matriz_a, int nVariables);
 void metodocramer(float** matriz_a);
 
 // Conjunto de funciones para calcular la determinante
@@ -38,8 +35,12 @@ float disminuir_matriz(float** matriz, int filas, int columnas, int limite, floa
 
 int main()
 {
+    int nVariables = 0;
+    int escalar = 0;
+
+    int opcion = 1;
+
     do {
-        int opcion = 0;
 
         puts("|| Calculadora de matrices ||\n");
         puts("Seleccione la operacion a realizar:\n");
@@ -47,6 +48,7 @@ int main()
         puts("[2] = Multiplicacion de matrices por una escalar");
         puts("[3] = Multiplicacion de matrices");
         puts("[4] = Transpuesta de una matriz");
+        //-------- funcionalidades de la segunda entrega
         puts("[5] = Inversa de una matriz (Gauss-Jordan)");
         puts("[6] = Sistema de ecuaciones (Gauss-Jordan)");
         puts("[7] = Determinante de una matriz");
@@ -57,10 +59,21 @@ int main()
         switch (opcion) {
 
         case 1: // sumar matrices
-            leer_dimensiones(&filas_a, &columnas_a);
-            matriz_a = leer_matriz(filas_a, columnas_a);
 
+            puts(">\tIngrese la dimensiones para la primera matriz");
+            leer_dimensiones(&filas_a, &columnas_a);
+            puts(">\tIngrese la dimensiones para la segunda matriz");
             leer_dimensiones(&filas_b, &columnas_b);
+
+            if ((filas_a != filas_b) || (columnas_a != columnas_b)) {
+                puts("No se pueden sumar las matrices, dimensiones diferentes");
+                getch();
+                break;
+            }
+
+            puts(">\tleyendo la primera matriz");
+            matriz_a = leer_matriz(filas_a, columnas_a);
+            puts(">\tleyendo la segunda matriz");
             matriz_b = leer_matriz(filas_b, columnas_b);
 
             sumar_matrices(matriz_a, matriz_b);
@@ -68,36 +81,53 @@ int main()
             liberar_memoria_matriz(matriz_a, filas_a);
             liberar_memoria_matriz(matriz_b, filas_b);
 
-            getch();
+            system("pause");
+            system("cls");
+
             break;
+
         case 2: // multiplicar matriz por un escalar
+
             leer_dimensiones(&filas_a, &columnas_a);
             matriz_a = leer_matriz(filas_a, columnas_a);
 
-            escalar = leer_escalar();
+            leer_escalar(&escalar);
 
             mult_matriz_escalar(matriz_a, escalar);
 
             liberar_memoria_matriz(matriz_a, filas_a);
 
-            getch();
+            system("pause");
+            system("cls");
             break;
         case 3: // multiplicaicion de matrices
+
+            puts(">\tIngrese la dimensiones para la primera matriz");
             leer_dimensiones(&filas_a, &columnas_a);
-            matriz_a = leer_matriz(filas_a, columnas_a);
-
+            puts(">\tIngrese la dimensiones para la segunda matriz");
             leer_dimensiones(&filas_b, &columnas_b);
-            matriz_b = leer_matriz(filas_b, columnas_b);
 
-            multiplicar_matrices(matriz_a, matriz_b);
+            if (columnas_a != filas_b) {
+                puts("No se pueden multiplicar las matrices, dimensiones diferentes");
 
-            liberar_memoria_matriz(matriz_a, filas_a);
-            liberar_memoria_matriz(matriz_b, filas_b);
+            } else {
 
-            getch();
+                puts(">\tleyendo la primera matriz");
+                matriz_a = leer_matriz(filas_a, columnas_a);
+                puts(">\tleyendo la segunda matriz");
+                matriz_b = leer_matriz(filas_b, columnas_b);
+
+                multiplicar_matrices(matriz_a, matriz_b);
+
+                liberar_memoria_matriz(matriz_a, filas_a);
+                liberar_memoria_matriz(matriz_b, filas_b);
+            }
+
+            system("pause");
+            system("cls");
             break;
 
-        case 4:
+        case 4: // matriz transpuesta
             leer_dimensiones(&filas_a, &columnas_a);
             matriz_a = leer_matriz(filas_a, columnas_a);
 
@@ -105,7 +135,8 @@ int main()
 
             liberar_memoria_matriz(matriz_a, filas_a);
 
-            getch();
+            system("pause");
+            system("cls");
             break;
         case 5:
             leer_dimensiones(&filas_a, &columnas_a);
@@ -115,7 +146,8 @@ int main()
 
             liberar_memoria_matriz(matriz_a, filas_a);
 
-            getch();
+            system("pause");
+            system("cls");
             break;
 
         case 6:
@@ -124,10 +156,12 @@ int main()
             validarDimension(&nVariables);
 
             matriz_a = leer_matriz(nVariables, nVariables + 1);
-            resolverGaussJordan(matriz_a);
+            resolverGaussJordan(matriz_a, nVariables);
 
             liberar_memoria_matriz(matriz_a, nVariables);
-            getch();
+
+            system("pause");
+            system("cls");
             break;
         case 7:
             leer_dimensiones(&filas_a, &columnas_a);
@@ -136,6 +170,9 @@ int main()
             determinante_matriz(matriz_a);
 
             liberar_memoria_matriz(matriz_a, filas_a);
+
+            system("pause");
+            system("cls");
             break;
         case 8:
             leer_dimensiones(&filas_a, &columnas_a);
@@ -145,15 +182,23 @@ int main()
 
             liberar_memoria_matriz(matriz_a, filas_a);
 
-            getch();
+            system("pause");
+            system("cls");
             break;
         default:
 
-            puts("Operacion no valida\n");
-            getch();
+            if (opcion == 0) {
+                puts("saliendo...");
+
+            } else {
+                puts("Operacion no valida");
+            }
+
+            system("pause");
+            system("cls");
             break;
         }
-    } while (1); // what the fuck does this mean
+    } while (opcion != 0);
 
     return 0;
 }
@@ -224,11 +269,14 @@ float** leer_matriz(int filas, int columnas)
             imprimir_matriz(matriz, filas, columnas);
             printf("(%d/%d) Ingrese para [%d][%d]: ", t, total, i, j);
             scanf("%f", &matriz[i][j]);
+            system("cls");
 
             t++;
         }
     }
     imprimir_matriz(matriz, filas, columnas);
+    system("pause");
+    system("cls");
 
     return matriz;
 }
@@ -265,11 +313,10 @@ void imprimir_matriz(float** matriz, int filas, int columnas)
 // ----------------------------------------
 // FUNCIONES AUXILIARES
 
-int leer_escalar()
+void leer_escalar(int* escalar)
 {
     puts("Ingrese el numero a escalar: ");
-    scanf("%i", &escalar);
-    return escalar;
+    scanf("%i", escalar);
 }
 
 // ----------------------------------------
@@ -319,10 +366,7 @@ void mult_matriz_escalar(float** matriz, int escalar)
 
 void multiplicar_matrices(float** matriz_a, float** matriz_b)
 {
-    if (columnas_a != filas_b) {
-        puts("No se pueden multiplicar las matrices, dimensiones diferentes");
-        return;
-    }
+
     float** matriz_producto = reservar_memoria_matriz(filas_a, columnas_b);
 
     for (int c = 0; c < filas_a; c++) {
@@ -349,7 +393,7 @@ void transpuesta_matriz(float** matriz)
     imprimir_matriz(matriz_transpuesta, columnas_a, filas_a);
     liberar_memoria_matriz(matriz_transpuesta, columnas_a);
 }
-void resolverGaussJordan(float** matriz_a)
+void resolverGaussJordan(float** matriz_a, int nVariables)
 {
     int coeficientePivote = 0, coeficienteACero = 0;
 
@@ -377,7 +421,6 @@ void resolverGaussJordan(float** matriz_a)
         for (int j = 0; j < nVariables + 1; j++) {
             matriz_a[i][j] /= pivote;
         }
-        puts("");
     }
     imprimir_matriz(matriz_a, nVariables, nVariables + 1);
 }
