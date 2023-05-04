@@ -1,3 +1,12 @@
+/*
+INTEGRANTES:
+    
+    - Gutiérrez Cohuo José Luis
+    - Méndez Villanueva Luis Gerardo
+    - Pacab Canul Rodrigo Joaquín
+
+*/
+
 #include <conio.h>
 #include <math.h>
 #include <stdio.h>
