@@ -27,7 +27,7 @@ float **leer_matriz(int filas, int columnas);
 void validarDimension(int *dimension);
 void imprimir_matriz(float **matriz, int filas, int columnas);
 // auxiliares
-void leer_escalar(int *escalar);
+void leer_escalar(float *escalar);
 int leerEntero();
 float leerFlotante();
 // funciones principales
@@ -48,7 +48,7 @@ float disminuir_matriz(float **matriz, int filas, int columnas, int limite, floa
 int main()
 {
     int nVariables = 0;
-    int escalar = 0;
+    float escalar = 0;
 
     int opcion = 1;
 
@@ -355,11 +355,11 @@ void imprimir_matriz(float **matriz, int filas, int columnas)
 // ----------------------------------------
 // FUNCIONES AUXILIARES
 
-void leer_escalar(int *escalar)
+void leer_escalar(float *escalar)
 {
     puts("Ingrese el numero a escalar: ");
     // scanf("%i", escalar);
-    *escalar = leerEntero();
+    *escalar = leerFlotante();
 }
 
 int leerEntero()
