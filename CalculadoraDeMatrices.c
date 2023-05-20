@@ -27,8 +27,9 @@ float **leer_matriz(int filas, int columnas);
 void validarDimension(int *dimension);
 void imprimir_matriz(float **matriz, int filas, int columnas);
 // auxiliares
-void leer_escalar(int *escalar); // <-- realmente es necesario? solo si se va a utilizar en las demas funciones.
+void leer_escalar(int *escalar);
 int leerEntero();
+float leerFlotante();
 // funciones principales
 void sumar_matrices(float **matriz_a, float **matriz_b);
 void mult_matriz_escalar(float **matriz, int escalar);
@@ -67,6 +68,7 @@ int main()
         puts("[8] = Sistema de ecuaciones (Cramer)\n");
 
         // scanf("%i", &opcion);
+        printf("Ingrese una opcion: ");
         opcion = leerEntero();
 
         switch (opcion)
@@ -128,7 +130,6 @@ int main()
             }
             else
             {
-
                 puts(">\tleyendo la primera matriz");
                 matriz_a = leer_matriz(filas_a, columnas_a);
                 puts(">\tleyendo la segunda matriz");
@@ -298,7 +299,9 @@ float **leer_matriz(int filas, int columnas)
 
             imprimir_matriz(matriz, filas, columnas);
             printf("(%d/%d) Ingrese para [%d][%d]: ", t, total, i, j);
-            scanf("%f", &matriz[i][j]);
+            // scanf("%f", &matriz[i][j]);
+            matriz[i][j] = leerFlotante();
+
             system("cls");
 
             t++;
@@ -385,6 +388,33 @@ int leerEntero()
     }
 
     return entero;
+}
+float leerFlotante()
+{
+    char entrada[100];
+    float flotante;
+
+    while (1)
+    {
+        fflush(stdin);
+        fgets(entrada, sizeof(entrada), stdin);
+        fflush(stdin);
+        entrada[strcspn(entrada, "\n")] = '\0';
+
+        // Validar si la entrada es un flotante
+        char *valorNoNumerico;
+        flotante = strtof(entrada, &valorNoNumerico);
+
+        // Comprobar si no hubo caracteres inválidos después del número
+        if (strlen(entrada) != 0 && *valorNoNumerico == '\0')
+        {
+            break;
+        }
+
+        printf("Entrada inválida. Por favor, ingrese un entero válido.\n");
+    }
+
+    return flotante;
 }
 
 // ----------------------------------------
