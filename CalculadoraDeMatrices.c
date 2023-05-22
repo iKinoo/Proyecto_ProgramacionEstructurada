@@ -479,7 +479,7 @@ void multiplicar_matrices(float **matriz_a, float **matriz_b)
 {
 
     float **matriz_producto = reservar_memoria_matriz(filas_a, columnas_b);
-    printf("\n")
+    printf("\n");
     for (int c = 0; c < filas_a; c++)
     {
         for (int f = 0; f < columnas_b; f++)
@@ -766,7 +766,7 @@ void metodocramer(float **matriz_a)
 
     if (det == 0)
     {
-        printf("El sistema de ecuaciones no tiene soluciÃ³n Ãºnica.\n");
+        printf("El sistema de ecuaciones no tiene solución única.\n");
         return;
     }
 
