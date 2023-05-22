@@ -6,16 +6,22 @@
             "command": "C:\\Program Files (x86)\\ZinjaI\\mingw32-gcc6\\bin\\gcc.exe",
             "args": [
                 "-fdiagnostics-color=always",
+                "-g",
+                "${workspaceFolder}\\main.c",
+                "${workspaceFolder}\\sources\\lecturaDeEntrada.c",
+                "${workspaceFolder}\\headers\\lecturaDeEntrada.h",
+                "${workspaceFolder}\\sources\\matrizDinamica.c",
+                "${workspaceFolder}\\headers\\matrizDinamica.h",
+                "-o",
+
+
+                "${workspaceFolder}\\CalculadoraDeMatrices.exe",
                 "-Wall",
                 "-pedantic-errors",
                 "-O0",
                 "-finput-charset=iso-8859-1",
                 "-fexec-charset=cp437",
                 "-lm",
-                "-g",
-                "${file}",
-                "-o",
-                "${fileDirname}\\${fileBasenameNoExtension}.exe"
             ],
             "options": {
                 "cwd": "${fileDirname}"
