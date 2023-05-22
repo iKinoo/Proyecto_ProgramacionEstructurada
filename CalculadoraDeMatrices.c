@@ -1,9 +1,9 @@
 /*
 INTEGRANTES:
 
-    - GutiÃ©rrez Cohuo JosÃ© Luis
-    - MÃ©ndez Villanueva Luis Gerardo
-    - Pacab Canul Rodrigo JoaquÃ­n
+    - Gutiérrez Cohuo José Luis
+    - Méndez Villanueva Luis Gerardo
+    - Pacab Canul Rodrigo Joaquí­n
 
 */
 
@@ -56,10 +56,10 @@ int main()
     {
 
         puts("|| Calculadora de matrices ||\n");
-        puts("Seleccione la operacion a realizar:\n");
+        puts("Seleccione la operación a realizar:\n");
         puts("[1] = Suma de matrices");
-        puts("[2] = Multiplicacion de matrices por una escalar");
-        puts("[3] = Multiplicacion de matrices");
+        puts("[2] = Multiplicación de matrices por una escalar");
+        puts("[3] = Multiplicación de matrices");
         puts("[4] = Transpuesta de una matriz");
         //-------- funcionalidades de la segunda entrega
         puts("[5] = Inversa de una matriz (Gauss-Jordan)");
@@ -68,7 +68,7 @@ int main()
         puts("[8] = Sistema de ecuaciones (Cramer)\n");
 
         // scanf("%i", &opcion);
-        printf("Ingrese una opcion: ");
+        printf("Ingrese una opción: ");
         opcion = leerEntero();
 
         switch (opcion)
@@ -76,12 +76,13 @@ int main()
 
         case 1: // sumar matrices
 
-            puts(">\tIngrese la dimensiones para la primera matriz");
+            puts(">\tIngrese las dimensiones para la primera matriz");
             leer_dimensiones(&filas_a, &columnas_a);
-            puts(">\tIngrese la dimensiones para la segunda matriz");
+            puts(">\tIngrese las dimensiones para la segunda matriz");
             leer_dimensiones(&filas_b, &columnas_b);
 
-            if ((filas_a != filas_b) || (columnas_a != columnas_b)) {
+            if ((filas_a != filas_b) || (columnas_a != columnas_b))
+            {
                 puts("\nNo se pueden sumar las matrices, dimensiones diferentes\n");
                 getch();
                 break;
@@ -116,17 +117,19 @@ int main()
             system("pause");
             system("cls");
             break;
-        case 3: // multiplicaicion de matrices
+        case 3: // multiplicación de matrices
 
-            puts(">\tIngrese la dimensiones para la primera matriz");
+            puts(">\tIngrese las dimensiones para la primera matriz");
             leer_dimensiones(&filas_a, &columnas_a);
-            puts(">\tIngrese la dimensiones para la segunda matriz");
+            puts(">\tIngrese las dimensiones para la segunda matriz");
             leer_dimensiones(&filas_b, &columnas_b);
 
-            if (columnas_a != filas_b) {
+            if (columnas_a != filas_b)
+            {
                 puts("\nNo se pueden multiplicar las matrices, dimensiones diferentes\n");
-
-            } else {
+            }
+            else
+            {
 
                 puts(">\tleyendo la primera matriz");
                 matriz_a = leer_matriz(filas_a, columnas_a);
@@ -154,6 +157,7 @@ int main()
             system("pause");
             system("cls");
             break;
+
         case 5:
             leer_dimensiones(&filas_a, &columnas_a);
             matriz_a = leer_matriz(filas_a, columnas_a);
@@ -167,7 +171,7 @@ int main()
             break;
 
         case 6:
-            puts("Ingrese el numero de variables del sistema: ");
+            puts("Ingrese el número de variables del sistema: ");
             // scanf("%d", &nVariables);
             nVariables = leerEntero();
             validarDimension(&nVariables);
@@ -182,9 +186,12 @@ int main()
             break;
         case 7:
             leer_dimensiones(&filas_a, &columnas_a);
-            if (filas_a != columnas_a){
-                puts("\nDimensiones no validas, ingrese una matriz cuadrada\n");
-            }else{
+            if (filas_a != columnas_a)
+            {
+                puts("\nDimensiones no válidas, ingrese una matriz cuadrada\n");
+            }
+            else
+            {
                 matriz_a = leer_matriz(filas_a, columnas_a);
                 determinante_matriz(matriz_a);
                 liberar_memoria_matriz(matriz_a, filas_a);
@@ -212,7 +219,7 @@ int main()
             }
             else
             {
-                puts("Operacion no valida");
+                puts("Operación no válida");
             }
 
             system("pause");
@@ -262,7 +269,7 @@ void validarDimension(int *dimension)
 {
     while (*dimension > 4 || *dimension < 1)
     {
-        puts("[!] Ha ingresado un valor mayor a 4 o menor a 1, intentelo de nuevo.");
+        puts("[!] Ha ingresado un valor mayor a 4 o menor a 1, inténtelo de nuevo.");
         printf("Ingrese el valor correspondiente [1-4]: ");
         // scanf("%d", dimension);
         *dimension = leerEntero();
@@ -270,12 +277,12 @@ void validarDimension(int *dimension)
 }
 void leer_dimensiones(int *filas, int *columnas)
 {
-    printf("Ingrese el numero de filas de la matriz [1-4]: ");
+    printf("Ingrese el número de filas de la matriz [1-4]: ");
     // scanf("%d", filas);
     *filas = leerEntero();
     validarDimension(filas);
 
-    printf("Ingrese el numero de columnas de la matriz [1-4]: ");
+    printf("Ingrese el número de columnas de la matriz [1-4]: ");
     // scanf("%d", columnas);
     *columnas = leerEntero();
     validarDimension(columnas);
@@ -357,7 +364,7 @@ void imprimir_matriz(float **matriz, int filas, int columnas)
 
 void leer_escalar(float *escalar)
 {
-    puts("Ingrese el numero a escalar: ");
+    puts("Ingrese el número a escalar: ");
     // scanf("%i", escalar);
     *escalar = leerFlotante();
 }
@@ -384,7 +391,7 @@ int leerEntero()
             break;
         }
 
-        printf("Entrada invÃ¡lida. Por favor, ingrese un entero vÃ¡lido.\n");
+        printf("Entrada inválida. Por favor, ingrese un entero válido.\n");
     }
 
     return entero;
@@ -405,13 +412,13 @@ float leerFlotante()
         char *valorNoNumerico;
         flotante = strtof(entrada, &valorNoNumerico);
 
-        // Comprobar si no hubo caracteres invÃ¡lidos despuÃ©s del nÃºmero
+        // Comprobar si no hubo caracteres inválidos después del número
         if (strlen(entrada) != 0 && *valorNoNumerico == '\0')
         {
             break;
         }
 
-        printf("Entrada invÃ¡lida. Por favor, ingrese un entero vÃ¡lido.\n");
+        printf("Entrada inválida. Por favor, ingrese un número válido.\n");
     }
 
     return flotante;
@@ -540,8 +547,7 @@ void resolverGaussJordan(float **matriz_a, int nVariables)
     imprimir_matriz(matriz_a, nVariables, nVariables + 1);
 }
 
-
-float determinante_sarrus_matriz(float** matriz)
+float determinante_sarrus_matriz(float **matriz)
 {
     float dp = matriz[0][0] * matriz[1][1] * matriz[2][2] + matriz[1][0] * matriz[2][1] * matriz[0][2] + matriz[2][0] * matriz[0][1] * matriz[1][2];
 
@@ -551,7 +557,7 @@ float determinante_sarrus_matriz(float** matriz)
     printf("(%.2f * %.2f * %.2f + %.2f * %.2f * %.2f + %.2f * %.2f * %.2f)\n", matriz[0][2], matriz[1][1], matriz[2][0], matriz[1][2], matriz[2][1], matriz[0][0], matriz[2][2], matriz[0][1], matriz[1][0]);
 
     printf("  Det(A) = (%.2f - %.2f)\n", dp, ds);
-    printf("    Det(A) = %.2f", dp-ds);
+    printf("    Det(A) = %.2f", dp - ds);
     printf("\n");
     return dp - ds;
 }
@@ -572,8 +578,9 @@ float disminuir_matriz(float **matriz, int filas, int columnas, int limite, floa
         }
     }
     printf("Submatriz: \n");
-    imprimir_matriz(submatriz,filas, columnas);
-    if (filas == 3 && columnas == 3) {
+    imprimir_matriz(submatriz, filas, columnas);
+    if (filas == 3 && columnas == 3)
+    {
         cofactor = pow(-1, limite) * escalar * determinante_sarrus_matriz(submatriz);
         liberar_memoria_matriz(submatriz, filas);
         return cofactor;
@@ -587,38 +594,43 @@ float disminuir_matriz(float **matriz, int filas, int columnas, int limite, floa
 float tomar_fila(float **matriz, int filas, int columnas)
 {
     float det_final = 0;
-    // Enviamos un valor de la fila elegida
-    for (int f = 0; f < filas_a; f++) {
+    // Envíamos un valor de la fila elegida
+    for (int f = 0; f < filas_a; f++)
+    {
         float det_sub = disminuir_matriz(matriz, (filas - 1), (columnas - 1), f, matriz[f][0]);
         printf("      Determinante de la submatriz = %.2f\n", det_sub);
         printf("        Suma Det(A) = %.2f + %.2f\n", det_final, det_sub);
-                printf("\n");
-        det_final += det_sub;  // llamada a la funcion para obtener su submatriz
-
+        printf("\n");
+        det_final += det_sub; // llamada a la función para obtener su submatriz
     }
     return det_final;
 }
 
 void determinante_matriz(float **matriz)
 {
-    // Metodo para matrices 1x1
+    // Método para matrices 1x1
     float determinante = 0;
-    if (filas_a == 1 && columnas_a == 1){
+    if (filas_a == 1 && columnas_a == 1)
+    {
         determinante = matriz[0][0];
-    //Metodo para matrices 2x2    
-    }else if (filas_a == 2 && columnas_a == 2) {
+        // Método para matrices 2x2
+    }
+    else if (filas_a == 2 && columnas_a == 2)
+    {
         float dp = matriz[0][0] * matriz[1][1];
         float ds = matriz[1][0] * matriz[0][1];
         determinante = dp - ds;
         printf("Determinante = (%.2f * %.2f) - (%.2f * %.2f)\n", matriz[0][0], matriz[1][1], matriz[1][0], matriz[0][1]);
         printf("Determinante = %.2f - %.2f\n", dp, ds);
     }
-    else if (filas_a == 3 && columnas_a == 3){
-            // Metodo para matrices 3x3 metodo por cofactores{
+    else if (filas_a == 3 && columnas_a == 3)
+    {
+        // Método para matrices 3x3 metodo por cofactores{
         determinante = determinante_sarrus_matriz(matriz);
     }
-    else{
-        // Metodo para dimensiones mayores a 3x3
+    else
+    {
+        // Método para dimensiones mayores a 3x3
         determinante = tomar_fila(matriz, filas_a, columnas_a);
     }
     printf("\n");
@@ -626,8 +638,7 @@ void determinante_matriz(float **matriz)
     return;
 }
 
-
-void inversaGaussJordan(float** matriz_a)
+void inversaGaussJordan(float **matriz_a)
 {
     // dimensiones de la matriz
     int n = filas_a;
@@ -682,7 +693,7 @@ void inversaGaussJordan(float** matriz_a)
             matriz_b[i][j] /= pivot;
         }
 
-        // se realiza la eliminacion hacia adelante
+        // se realiza la eliminación hacia adelante
         for (int j = i + 1; j < n; j++)
         {
             float factor = matriz_a[j][i];
@@ -694,7 +705,7 @@ void inversaGaussJordan(float** matriz_a)
         }
     }
 
-    // se realiza la eliminacion hacia atras
+    // se realiza la eliminación hacia atrás
     for (int i = n - 1; i >= 0; i--)
     {
         for (int j = i - 1; j >= 0; j--)
@@ -717,7 +728,7 @@ void inversaGaussJordan(float** matriz_a)
 }
 void metodocramer(float **matriz_a)
 {
-    // obtener la dimensiÃ³n de la matriz
+    // obtener la dimensión de la matriz
     int n = filas_a;
 
     // matriz de coeficientes
@@ -752,7 +763,7 @@ void metodocramer(float **matriz_a)
         return;
     }
 
-    printf("SoluciÃ³n del sistema de ecuaciones:\n");
+    printf("Solución del sistema de ecuaciones:\n");
     for (int i = 0; i < n - 1; i++)
     {
         float **temp = reservar_memoria_matriz(n, n);
@@ -786,7 +797,7 @@ void metodocramer(float **matriz_a)
             det_temp = determinante_sarrus_matriz(temp);
         }
 
-        // Imprimir la soluciÃ³n de la variable x_i
+        // Imprimir la solución de la variable x_i
         printf("x%d = %.2f\n", i + 1, det_temp / det);
 
         // Liberar la memoria de la matriz temporal
@@ -819,7 +830,7 @@ void metodocramer(float **matriz_a)
         det_temp = determinante_sarrus_matriz(temp);
     }
 
-    // Imprimir la soluciÃ³n de y
+    // Imprimir la solución de y
     printf("y = %.2f\n", det_temp / det);
 
     // Liberar la memoria de la matriz temporal
