@@ -81,9 +81,8 @@ int main()
             puts(">\tIngrese la dimensiones para la segunda matriz");
             leer_dimensiones(&filas_b, &columnas_b);
 
-            if ((filas_a != filas_b) || (columnas_a != columnas_b))
-            {
-                puts("No se pueden sumar las matrices, dimensiones diferentes");
+            if ((filas_a != filas_b) || (columnas_a != columnas_b)) {
+                puts("\nNo se pueden sumar las matrices, dimensiones diferentes\n");
                 getch();
                 break;
             }
@@ -124,12 +123,11 @@ int main()
             puts(">\tIngrese la dimensiones para la segunda matriz");
             leer_dimensiones(&filas_b, &columnas_b);
 
-            if (columnas_a != filas_b)
-            {
-                puts("No se pueden multiplicar las matrices, dimensiones diferentes");
-            }
-            else
-            {
+            if (columnas_a != filas_b) {
+                puts("\nNo se pueden multiplicar las matrices, dimensiones diferentes\n");
+
+            } else {
+
                 puts(">\tleyendo la primera matriz");
                 matriz_a = leer_matriz(filas_a, columnas_a);
                 puts(">\tleyendo la segunda matriz");
@@ -184,11 +182,13 @@ int main()
             break;
         case 7:
             leer_dimensiones(&filas_a, &columnas_a);
-            matriz_a = leer_matriz(filas_a, columnas_a);
-
-            determinante_matriz(matriz_a);
-
-            liberar_memoria_matriz(matriz_a, filas_a);
+            if (filas_a != columnas_a){
+                puts("\nDimensiones no validas, ingrese una matriz cuadrada\n");
+            }else{
+                matriz_a = leer_matriz(filas_a, columnas_a);
+                determinante_matriz(matriz_a);
+                liberar_memoria_matriz(matriz_a, filas_a);
+            }
 
             system("pause");
             system("cls");
@@ -540,11 +540,19 @@ void resolverGaussJordan(float **matriz_a, int nVariables)
     imprimir_matriz(matriz_a, nVariables, nVariables + 1);
 }
 
-float determinante_sarrus_matriz(float **matriz)
+
+float determinante_sarrus_matriz(float** matriz)
 {
     float dp = matriz[0][0] * matriz[1][1] * matriz[2][2] + matriz[1][0] * matriz[2][1] * matriz[0][2] + matriz[2][0] * matriz[0][1] * matriz[1][2];
 
     float ds = matriz[0][2] * matriz[1][1] * matriz[2][0] + matriz[1][2] * matriz[2][1] * matriz[0][0] + matriz[2][2] * matriz[0][1] * matriz[1][0];
+
+    printf("Det(A) = (%.2f * %.2f * %.2f + %.2f * %.2f * %.2f + %.2f * %.2f * %.2f) - ", matriz[0][0], matriz[1][1], matriz[2][2], matriz[1][0], matriz[2][1], matriz[0][2], matriz[2][0], matriz[0][1], matriz[1][2]);
+    printf("(%.2f * %.2f * %.2f + %.2f * %.2f * %.2f + %.2f * %.2f * %.2f)\n", matriz[0][2], matriz[1][1], matriz[2][0], matriz[1][2], matriz[2][1], matriz[0][0], matriz[2][2], matriz[0][1], matriz[1][0]);
+
+    printf("  Det(A) = (%.2f - %.2f)\n", dp, ds);
+    printf("    Det(A) = %.2f", dp-ds);
+    printf("\n");
     return dp - ds;
 }
 
@@ -563,8 +571,9 @@ float disminuir_matriz(float **matriz, int filas, int columnas, int limite, floa
             submatriz[i][j] = matriz[f][c];
         }
     }
-    if (filas == 3 && columnas == 3)
-    {
+    printf("Submatriz: \n");
+    imprimir_matriz(submatriz,filas, columnas);
+    if (filas == 3 && columnas == 3) {
         cofactor = pow(-1, limite) * escalar * determinante_sarrus_matriz(submatriz);
         liberar_memoria_matriz(submatriz, filas);
         return cofactor;
@@ -579,38 +588,46 @@ float tomar_fila(float **matriz, int filas, int columnas)
 {
     float det_final = 0;
     // Enviamos un valor de la fila elegida
-    for (int f = 0; f < filas_a; f++)
-    {
-        det_final += disminuir_matriz(matriz, (filas - 1), (columnas - 1), f, matriz[f][0]); // llamada a la funcion para obtener su submatriz
+    for (int f = 0; f < filas_a; f++) {
+        float det_sub = disminuir_matriz(matriz, (filas - 1), (columnas - 1), f, matriz[f][0]);
+        printf("      Determinante de la submatriz = %.2f\n", det_sub);
+        printf("        Suma Det(A) = %.2f + %.2f\n", det_final, det_sub);
+                printf("\n");
+        det_final += det_sub;  // llamada a la funcion para obtener su submatriz
+
     }
     return det_final;
 }
 
 void determinante_matriz(float **matriz)
 {
-    // Metodo para matrices 2x2
+    // Metodo para matrices 1x1
     float determinante = 0;
-    if (filas_a == 2 && columnas_a == 2)
-    {
+    if (filas_a == 1 && columnas_a == 1){
+        determinante = matriz[0][0];
+    //Metodo para matrices 2x2    
+    }else if (filas_a == 2 && columnas_a == 2) {
         float dp = matriz[0][0] * matriz[1][1];
         float ds = matriz[1][0] * matriz[0][1];
         determinante = dp - ds;
-        // Metodo para matrices 3x3 metodo por cofactores
+        printf("Determinante = (%.2f * %.2f) - (%.2f * %.2f)\n", matriz[0][0], matriz[1][1], matriz[1][0], matriz[0][1]);
+        printf("Determinante = %.2f - %.2f\n", dp, ds);
     }
-    else if (filas_a == 3 && columnas_a == 3)
-    {
+    else if (filas_a == 3 && columnas_a == 3){
+            // Metodo para matrices 3x3 metodo por cofactores{
         determinante = determinante_sarrus_matriz(matriz);
-        // Metodo para dimensiones mayores a 3x3
     }
-    else
-    {
+    else{
+        // Metodo para dimensiones mayores a 3x3
         determinante = tomar_fila(matriz, filas_a, columnas_a);
     }
+    printf("\n");
     printf("El determinante de la matriz es: [%.2f]\n", determinante);
     return;
 }
 
-void inversaGaussJordan(float **matriz_a)
+
+void inversaGaussJordan(float** matriz_a)
 {
     // dimensiones de la matriz
     int n = filas_a;
