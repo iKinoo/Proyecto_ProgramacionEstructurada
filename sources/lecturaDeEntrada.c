@@ -58,3 +58,9 @@ float leerFlotante()
 
     return flotante;
 }
+void leer_escalar(float *escalar)
+{
+    puts("Ingrese el número a escalar: ");
+    *escalar = leerFlotante();
+}
+

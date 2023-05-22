@@ -43,19 +43,16 @@ void validarDimension(int *dimension)
     {
         puts("[!] Ha ingresado un valor mayor a 4 o menor a 1, inténtelo de nuevo.");
         printf("Ingrese el valor correspondiente [1-4]: ");
-        // scanf("%d", dimension);
         *dimension = leerEntero();
     }
 }
 void leer_dimensiones(int *filas, int *columnas)
 {
     printf("Ingrese el número de filas de la matriz [1-4]: ");
-    // scanf("%d", filas);
     *filas = leerEntero();
     validarDimension(filas);
 
     printf("Ingrese el número de columnas de la matriz [1-4]: ");
-    // scanf("%d", columnas);
     *columnas = leerEntero();
     validarDimension(columnas);
 }
@@ -78,7 +75,6 @@ float **leer_matriz(int filas, int columnas)
 
             imprimir_matriz(matriz, filas, columnas);
             printf("(%d/%d) Ingrese para [%d][%d]: ", t, total, i, j);
-            // scanf("%f", &matriz[i][j]);
             matriz[i][j] = leerFlotante();
 
             system("cls");

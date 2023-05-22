@@ -12,6 +12,10 @@
                 "${workspaceFolder}\\headers\\lecturaDeEntrada.h",
                 "${workspaceFolder}\\sources\\matrizDinamica.c",
                 "${workspaceFolder}\\headers\\matrizDinamica.h",
+                "${workspaceFolder}\\sources\\primeraEntrega.c",
+                "${workspaceFolder}\\headers\\primeraEntrega.h",
+                "${workspaceFolder}\\sources\\segundaEntrega.c",
+                "${workspaceFolder}\\headers\\segundaEntrega.h",
                 "-o",
 
 

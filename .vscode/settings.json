@@ -1,4 +1,8 @@
 {
     "files.encoding": "iso885915",
+    "files.associations": {
+        "primeraentrega.h": "c",
+        "matrizdinamica.h": "c"
+    },
 
 }
