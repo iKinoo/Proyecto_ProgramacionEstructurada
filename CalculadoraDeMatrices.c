@@ -479,20 +479,27 @@ void multiplicar_matrices(float **matriz_a, float **matriz_b)
 {
 
     float **matriz_producto = reservar_memoria_matriz(filas_a, columnas_b);
-
+    printf("\n")
     for (int c = 0; c < filas_a; c++)
     {
         for (int f = 0; f < columnas_b; f++)
         {
+            printf("[%i, %i] = ",c , f);
             for (int k = 0; k < columnas_a; k++)
             {
                 matriz_producto[c][f] += matriz_a[c][k] * matriz_b[k][f];
+                printf(" %.2f * %.2f +", matriz_a[c][k], matriz_b[k][f] );
+                if(k == (columnas_a-1)){
+                    printf(" %.2f * %.2f ", matriz_a[c][k], matriz_b[k][f] );
+                }
             }
+            printf("\n");
         }
     }
     puts("Matriz producto: ");
     imprimir_matriz(matriz_producto, filas_a, columnas_b);
     liberar_memoria_matriz(matriz_producto, filas_a);
+
 }
 void transpuesta_matriz(float **matriz)
 {
@@ -839,3 +846,4 @@ void metodocramer(float **matriz_a)
     // Liberar la memoria de las matrices de coeficientes y resultados
     liberar_memoria_matriz(coeficientes, n);
 }
+
