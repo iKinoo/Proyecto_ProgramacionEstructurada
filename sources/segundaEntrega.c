@@ -122,7 +122,6 @@ void resolverGaussJordan(float **matriz_a, int nVariables)
 
     for (int i = 0; i < nVariables; i++)
     {
-
         int pivote = matriz_a[i][i];
 
         for (int j = 0; j < nVariables + 1; j++)
@@ -133,9 +132,23 @@ void resolverGaussJordan(float **matriz_a, int nVariables)
     imprimir_matriz(matriz_a, nVariables, nVariables + 1);
 }
 
+float **copiarMatriz(float **matrizOriginal, int filas, int columnas)
+{
+    float **matrizCopiada = reservar_memoria_matriz(filas, columnas);
+
+    for (int i = 0; i < filas; i++)
+    {
+        for (int j = 0; j < columnas; j++)
+        {
+            matrizCopiada[i][j] = matrizOriginal[i][j];
+        }
+    }
+    return matrizCopiada;
+}
 
 void inversaGaussJordan(float **matriz_a)
 {
+    float **matrizIngresada = copiarMatriz(matriz_a, filas_a, filas_a);
     // dimensiones de la matriz
     int n = filas_a;
     int m = columnas_a;
@@ -214,7 +227,8 @@ void inversaGaussJordan(float **matriz_a)
             }
         }
     }
-
+    printf("Matriz ingresada:\n");
+    imprimir_matriz(matrizIngresada, filas_a, columnas_a);
     // se imprime la matriz inversa
     printf("\nMatriz inversa:\n");
     imprimir_matriz(matriz_b, n, m);
@@ -335,4 +349,3 @@ void metodocramer(float **matriz_a)
     // Liberar la memoria de las matrices de coeficientes y resultados
     liberar_memoria_matriz(coeficientes, n);
 }
-

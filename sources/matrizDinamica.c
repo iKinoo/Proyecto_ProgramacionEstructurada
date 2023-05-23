@@ -88,42 +88,29 @@ float **leer_matriz(int filas, int columnas)
 
     return matriz;
 }
+// auxiliar para imprimir la matriz
+void imprimirRenglones(int columnas)
+{
+    printf("--");
+    for (int i = 0; i < columnas; i++)
+    {
+        printf("-----------");
+    }
+    printf("-");
+    puts("");
+}
 void imprimir_matriz(float **matriz, int filas, int columnas)
 {
-    printf("/   ");
-    for (int l = 0; l < columnas; l++)
-    {
-        printf("       ");
-    }
-    puts(" \\");
 
+    imprimirRenglones(columnas);
     for (int f = 0; f < filas; f++)
     {
         printf("| ");
         for (int c = 0; c < columnas; c++)
         {
-
-            if (matriz[f][c] < 10 && matriz[f][c] >= 0)
-            {
-                printf("   ");
-            }
-            else if (matriz[f][c] < 100 && matriz[f][c] >= 0)
-            {
-                printf("  ");
-            }
-            else if (matriz[f][c] < 1000 && matriz[f][c] >= 0)
-            {
-                printf(" ");
-            }
-
-            printf("%.2f ", matriz[f][c]);
+            printf("%10.2f ", matriz[f][c]);
         }
         puts("|");
     }
-    putchar('\\');
-    for (int l = 0; l < columnas; l++)
-    {
-        printf("       ");
-    }
-    puts("    /");
+    imprimirRenglones(columnas);
 }
