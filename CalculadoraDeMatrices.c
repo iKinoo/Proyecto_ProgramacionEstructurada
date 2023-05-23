@@ -532,6 +532,11 @@ void inversaGaussJordan(float** matriz_a)
                 matriz_b[max_fila][j] = temp;
             }
         }
+        
+        printf("Intercambio de filas %d y %d:\n", i, max_fila);
+		imprimir_matriz(matriz_a, n, m);
+		imprimir_matriz(matriz_b, n, m);
+        
 
         // se divide la fila i por el valor de la diagonal para que tenga un 1 en la diagonal
         float pivot = matriz_a[i][i];
@@ -539,6 +544,11 @@ void inversaGaussJordan(float** matriz_a)
             matriz_a[i][j] /= pivot;
             matriz_b[i][j] /= pivot;
         }
+        
+        
+		printf("División de la fila %d por el valor de la diagonal:\n", i);
+		imprimir_matriz(matriz_a, n, m);
+		imprimir_matriz(matriz_b, n, m);
 
         // se realiza la eliminacion hacia adelante
         for (int j = i + 1; j < n; j++) {
@@ -548,6 +558,9 @@ void inversaGaussJordan(float** matriz_a)
                 matriz_b[j][k] -= factor * matriz_b[i][k];
             }
         }
+        printf("Eliminación hacia adelante (fila %d eliminada de las filas siguientes):\n", i);
+		imprimir_matriz(matriz_a, n, m);
+		imprimir_matriz(matriz_b, n, m);
     }
 
     // se realiza la eliminacion hacia atras
@@ -559,6 +572,9 @@ void inversaGaussJordan(float** matriz_a)
                 matriz_b[j][k] -= factor * matriz_b[i][k];
             }
         }
+        printf("Eliminación hacia atrás (fila %d eliminada de las filas anteriores):\n", i);
+		imprimir_matriz(matriz_a, n, m);
+		imprimir_matriz(matriz_b, n, m);
     }
 
     // se imprime la matriz inversa
