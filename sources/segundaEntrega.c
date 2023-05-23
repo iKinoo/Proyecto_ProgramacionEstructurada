@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <math.h>
+#include "stdlib.h"
 
 #include "../headers/segundaEntrega.h"
 #include "../headers/matrizDinamica.h"
@@ -101,8 +102,6 @@ void resolverGaussJordan(float **matriz_a, int nVariables)
 
     for (int i = 0; i < nVariables; i++)
     {
-        printf("\n\nPivote %d: %f\n", i + 1, matriz_a[i][i]);
-
         for (int j = 0; j < nVariables; j++)
         {
             if (j == i)
@@ -114,7 +113,10 @@ void resolverGaussJordan(float **matriz_a, int nVariables)
 
             for (int k = 0; k < nVariables + 1; k++)
             {
+                imprimir_matriz(matriz_a, nVariables, nVariables + 1);
                 matriz_a[j][k] = (coeficientePivote * matriz_a[j][k]) + (coeficienteACero * matriz_a[i][k] * (-1));
+                system("pause");
+                system("cls");
             }
             puts("");
         }
@@ -126,10 +128,37 @@ void resolverGaussJordan(float **matriz_a, int nVariables)
 
         for (int j = 0; j < nVariables + 1; j++)
         {
+            imprimir_matriz(matriz_a, nVariables, nVariables + 1);
             matriz_a[i][j] /= pivote;
+            system("pause");
+            system("cls");
         }
     }
     imprimir_matriz(matriz_a, nVariables, nVariables + 1);
+
+    puts("solución: ");
+    for (int i = 0; i < nVariables; i++)
+    {
+        switch (i)
+        {
+        case 0:
+            printf("x = %.2f\n", matriz_a[i][nVariables]);
+            break;
+        case 1:
+            printf("y = %.2f\n", matriz_a[i][nVariables]);
+            break;
+        case 2:
+            printf("z = %.2f\n", matriz_a[i][nVariables]);
+            break;
+        case 3:
+            printf("w = %.2f\n", matriz_a[i][nVariables]);
+            break;
+        default:
+            break;
+        }
+    }
+    system("pause");
+    system("cls");
 }
 
 float **copiarMatriz(float **matrizOriginal, int filas, int columnas)
