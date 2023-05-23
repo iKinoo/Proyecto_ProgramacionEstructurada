@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <math.h>
-#include "stdlib.h"
+#include <stdlib.h>
 
 #include "../headers/segundaEntrega.h"
 #include "../headers/matrizDinamica.h"
