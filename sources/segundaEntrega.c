@@ -51,26 +51,26 @@ float disminuir_matriz(float **matriz, int filas, int columnas, int limite, floa
 float tomar_fila(float **matriz, int filas, int columnas)
 {
     float det_final = 0;
-    // Env韆mos un valor de la fila elegida
+    // Env铆amos un valor de la fila elegida
     for (int f = 0; f < filas_a; f++)
     {
         float det_sub = disminuir_matriz(matriz, (filas - 1), (columnas - 1), f, matriz[f][0]);
         printf("      Determinante de la submatriz = %.2f\n", det_sub);
         printf("        Suma Det(A) = %.2f + %.2f\n", det_final, det_sub);
         printf("\n");
-        det_final += det_sub; // llamada a la funci髇 para obtener su submatriz
+        det_final += det_sub; // llamada a la funci贸n para obtener su submatriz
     }
     return det_final;
 }
 
 void determinante_matriz(float **matriz)
 {
-    // M閠odo para matrices 1x1
+    // M茅todo para matrices 1x1
     float determinante = 0;
     if (filas_a == 1 && columnas_a == 1)
     {
         determinante = matriz[0][0];
-        // M閠odo para matrices 2x2
+        // M茅todo para matrices 2x2
     }
     else if (filas_a == 2 && columnas_a == 2)
     {
@@ -82,12 +82,12 @@ void determinante_matriz(float **matriz)
     }
     else if (filas_a == 3 && columnas_a == 3)
     {
-        // M閠odo para matrices 3x3 metodo por cofactores{
+        // M茅todo para matrices 3x3 metodo por cofactores{
         determinante = determinante_sarrus_matriz(matriz);
     }
     else
     {
-        // M閠odo para dimensiones mayores a 3x3
+        // M茅todo para dimensiones mayores a 3x3
         determinante = tomar_fila(matriz, filas_a, columnas_a);
     }
     printf("\n");
@@ -193,6 +193,10 @@ void inversaGaussJordan(float **matriz_a)
                 matriz_b[max_fila][j] = temp;
             }
         }
+        
+        printf("Intercambio de filas %d y %d:\n", i, max_fila);
+		imprimir_matriz(matriz_a, n, m);
+		imprimir_matriz(matriz_b, n, m);
 
         // se divide la fila i por el valor de la diagonal para que tenga un 1 en la diagonal
         float pivot = matriz_a[i][i];
@@ -201,8 +205,12 @@ void inversaGaussJordan(float **matriz_a)
             matriz_a[i][j] /= pivot;
             matriz_b[i][j] /= pivot;
         }
+        
+        printf("Divisi贸n de la fila %d por el valor de la diagonal:\n", i);
+		imprimir_matriz(matriz_a, n, m);
+		imprimir_matriz(matriz_b, n, m);
 
-        // se realiza la eliminaci髇 hacia adelante
+        // se realiza la eliminaci贸n hacia adelante
         for (int j = i + 1; j < n; j++)
         {
             float factor = matriz_a[j][i];
@@ -212,9 +220,12 @@ void inversaGaussJordan(float **matriz_a)
                 matriz_b[j][k] -= factor * matriz_b[i][k];
             }
         }
+        printf("Eliminaci贸n hacia adelante (fila %d eliminada de las filas siguientes):\n", i);
+		imprimir_matriz(matriz_a, n, m);
+		imprimir_matriz(matriz_b, n, m);
     }
 
-    // se realiza la eliminaci髇 hacia atr醩
+    // se realiza la eliminaci贸n hacia atr谩s
     for (int i = n - 1; i >= 0; i--)
     {
         for (int j = i - 1; j >= 0; j--)
@@ -226,6 +237,9 @@ void inversaGaussJordan(float **matriz_a)
                 matriz_b[j][k] -= factor * matriz_b[i][k];
             }
         }
+        printf("Eliminaci贸n hacia atr谩s (fila %d eliminada de las filas anteriores):\n", i);
+		imprimir_matriz(matriz_a, n, m);
+		imprimir_matriz(matriz_b, n, m);
     }
     printf("Matriz ingresada:\n");
     imprimir_matriz(matrizIngresada, filas_a, columnas_a);
@@ -239,7 +253,7 @@ void inversaGaussJordan(float **matriz_a)
 }
 void metodocramer(float **matriz_a)
 {
-    // obtener la dimensi髇 de la matriz
+    // obtener la dimensi贸n de la matriz
     int n = filas_a;
 
     // matriz de coeficientes
@@ -270,11 +284,11 @@ void metodocramer(float **matriz_a)
 
     if (det == 0)
     {
-        printf("El sistema de ecuaciones no tiene soluci髇 鷑ica.\n");
+        printf("El sistema de ecuaciones no tiene soluci贸n 煤nica.\n");
         return;
     }
 
-    printf("Soluci髇 del sistema de ecuaciones:\n");
+    printf("Soluci贸n del sistema de ecuaciones:\n");
     for (int i = 0; i < n - 1; i++)
     {
         float **temp = reservar_memoria_matriz(n, n);
@@ -308,7 +322,7 @@ void metodocramer(float **matriz_a)
             det_temp = determinante_sarrus_matriz(temp);
         }
 
-        // Imprimir la soluci髇 de la variable x_i
+        // Imprimir la soluci贸n de la variable x_i
         printf("x%d = %.2f\n", i + 1, det_temp / det);
 
         // Liberar la memoria de la matriz temporal
@@ -341,7 +355,7 @@ void metodocramer(float **matriz_a)
         det_temp = determinante_sarrus_matriz(temp);
     }
 
-    // Imprimir la soluci髇 de y
+    // Imprimir la soluci贸n de y
     printf("y = %.2f\n", det_temp / det);
 
     // Liberar la memoria de la matriz temporal
