@@ -10,7 +10,7 @@ extern int filas_a, columnas_a,
 
 
 void sumar_matrices(float **matriz_a, float **matriz_b);
-void mult_matriz_escalar(float **matriz, int escalar);
+void mult_matriz_escalar(float **matriz, float escalar);
 void transpuesta_matriz(float **matriz);
 void multiplicar_matrices(float **matriz_a, float **matriz_b);
 

@@ -36,7 +36,7 @@ void sumar_matrices(float **matriz_a, float **matriz_b)
     }
 }
 
-void mult_matriz_escalar(float **matriz, int escalar)
+void mult_matriz_escalar(float **matriz, float escalar)
 {
     float **matriz_escalada = reservar_memoria_matriz(filas_a, columnas_a);
 
@@ -47,6 +47,9 @@ void mult_matriz_escalar(float **matriz, int escalar)
             matriz_escalada[c][f] = escalar * matriz[c][f];
         }
     }
+    puts("Matriz Ingresada: \n");
+    imprimir_matriz(matriz, filas_a, columnas_a);
+    printf("Escalar: %.2f\n", escalar);
     puts("La matriz escalada es:\n");
     imprimir_matriz(matriz_escalada, filas_a, columnas_a);
     liberar_memoria_matriz(matriz_escalada, filas_a);
@@ -54,7 +57,6 @@ void mult_matriz_escalar(float **matriz, int escalar)
 
 void multiplicar_matrices(float **matriz_a, float **matriz_b)
 {
-
     float **matriz_producto = reservar_memoria_matriz(filas_a, columnas_b);
     printf("\n");
     for (int c = 0; c < filas_a; c++)
@@ -89,6 +91,8 @@ void transpuesta_matriz(float **matriz)
             matriz_transpuesta[f][c] = matriz[c][f];
         }
     }
+    puts("Matriz ingresada: ");
+    imprimir_matriz(matriz, filas_a, columnas_a);
     puts("La transpuesta de la matriz ingresada es:\n");
     imprimir_matriz(matriz_transpuesta, columnas_a, filas_a);
     liberar_memoria_matriz(matriz_transpuesta, columnas_a);
