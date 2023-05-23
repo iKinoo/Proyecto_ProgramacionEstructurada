@@ -139,7 +139,7 @@ void resolverGaussJordan(float **matriz_a, int nVariables)
     }
     imprimir_matriz(matriz_a, nVariables, nVariables + 1);
 
-    puts("soluci贸n: ");
+    puts("soluci髇: ");
     for (int i = 0; i < nVariables; i++)
     {
         switch (i)
@@ -238,7 +238,7 @@ void inversaGaussJordan(float **matriz_a)
             matriz_b[i][j] /= pivot;
         }
 
-        printf("Divisi贸n de la fila %d por el valor de la diagonal:\n", i);
+        printf("Divisi髇 de la fila %d por el valor de la diagonal:\n", i);
         imprimir_matriz(matriz_a, n, m);
         imprimir_matriz(matriz_b, n, m);
 
@@ -252,7 +252,7 @@ void inversaGaussJordan(float **matriz_a)
                 matriz_b[j][k] -= factor * matriz_b[i][k];
             }
         }
-        printf("Eliminaci贸n hacia adelante (fila %d eliminada de las filas siguientes):\n", i);
+        printf("Eliminaci髇 hacia adelante (fila %d eliminada de las filas siguientes):\n", i);
         imprimir_matriz(matriz_a, n, m);
         imprimir_matriz(matriz_b, n, m);
     }
@@ -269,7 +269,7 @@ void inversaGaussJordan(float **matriz_a)
                 matriz_b[j][k] -= factor * matriz_b[i][k];
             }
         }
-        printf("Eliminaci贸n hacia atr谩s (fila %d eliminada de las filas anteriores):\n", i);
+        printf("Eliminaci髇 hacia atr醩 (fila %d eliminada de las filas anteriores):\n", i);
         imprimir_matriz(matriz_a, n, m);
         imprimir_matriz(matriz_b, n, m);
     }
@@ -283,71 +283,110 @@ void inversaGaussJordan(float **matriz_a)
     liberar_memoria_matriz(matrizIngresada, filas_a);
     liberar_memoria_matriz(matriz_b, n);
 }
-void metodocramer(float **matriz_a)
-{
-    // obtener la dimensi脙鲁n de la matriz
-    int n = filas_a;
-
-    // matriz de coeficientes
-    float **coeficientes = reservar_memoria_matriz(n, n);
-    // matriz de resultados
-    float **resultados = reservar_memoria_matriz(n, 1);
-
-    // Extraer coeficientes y resultados de la matriz_a
-    for (int i = 0; i < n; i++)
+    void metodocramer(float **matriz_a)
     {
-        for (int j = 0; j < n; j++)
+        // obtener la dimensi脙鲁n de la matriz
+        int n = filas_a;
+
+        // matriz de coeficientes
+        float **coeficientes = reservar_memoria_matriz(n, n);
+        // matriz de resultados
+        float **resultados = reservar_memoria_matriz(n, 1);
+
+        // Extraer coeficientes y resultados de la matriz_a
+        for (int i = 0; i < n; i++)
         {
-            coeficientes[i][j] = matriz_a[i][j];
-        }
-        resultados[i][0] = matriz_a[i][n];
-    }
-
-    // Calcular el determinante de la matriz de coeficientes
-    float det = 0;
-    if (n == 2)
-    {
-        det = coeficientes[0][0] * coeficientes[1][1] - coeficientes[0][1] * coeficientes[1][0];
-    }
-    else
-    {
-        det = determinante_sarrus_matriz(coeficientes, 0);
-    }
-
-    if (det == 0)
-    {
-        printf("El sistema de ecuaciones no tiene soluci贸n 煤nica.\n");
-        return;
-    }
-
-    puts("Matriz ingresada: ");
-    imprimir_matriz(matriz_a, filas_a, columnas_a);
-    
-
-    printf("Soluci贸n del sistema de ecuaciones:\n");
-    for (int i = 0; i < n - 1; i++)
-    {
-        float **temp = reservar_memoria_matriz(n, n);
-        for (int j = 0; j < n; j++)
-        {
-            for (int k = 0; k < n; k++)
+            for (int j = 0; j < n; j++)
             {
-                if (k == i)
+                coeficientes[i][j] = matriz_a[i][j];
+            }
+            resultados[i][0] = matriz_a[i][n];
+        }
+
+        // Calcular el determinante de la matriz de coeficientes
+        float det = 0;
+        if (n == 2)
+        {
+            det = coeficientes[0][0] * coeficientes[1][1] - coeficientes[0][1] * coeficientes[1][0];
+        }
+        else
+        {
+            det = determinante_sarrus_matriz(coeficientes, 0);
+        }
+
+        if (det == 0)
+        {
+            printf("El sistema de ecuaciones no tiene soluci髇 鷑ica.\n");
+            return;
+        }
+
+        puts("Matriz ingresada: ");
+        imprimir_matriz(matriz_a, filas_a, columnas_a);
+        
+
+        printf("Soluci髇 del sistema de ecuaciones:\n");
+        for (int i = 0; i < n - 1; i++)
+        {
+            float **temp = reservar_memoria_matriz(n, n);
+            for (int j = 0; j < n; j++)
+            {
+                for (int k = 0; k < n; k++)
                 {
-                    temp[j][k] = resultados[j][0];
+                    if (k == i)
+                    {
+                        temp[j][k] = resultados[j][0];
+                    }
+                    else if (k == n - 1)
+                    {
+                        temp[j][k] = coeficientes[j][n - 1];
+                    }
+                    else
+                    {
+                        temp[j][k] = coeficientes[j][k];
+                    }
                 }
-                else if (k == n - 1)
+            }
+
+            // Calcular el determinante de la nueva matriz
+            float det_temp = 0;
+            if (n == 2)
+            {
+                det_temp = temp[0][0] * temp[1][1] - temp[0][1] * temp[1][0];
+            }
+            else
+            {
+                det_temp = determinante_sarrus_matriz(temp, 0);
+            }
+            
+            printf("\nMatriz temporal:\n");
+            imprimir_matriz(temp, n, n);
+
+            // Imprimir la soluci脙鲁n de la variable x_i
+            printf("x%d = %.2f\n", i + 1, det_temp / det);
+
+            // Liberar la memoria de la matriz temporal
+            liberar_memoria_matriz(temp, n);
+        }
+
+        float **temp = reservar_memoria_matriz(n, n);
+        for (int i = 0; i < n; i++)
+        {
+            for (int j = 0; j < n; j++)
+            {
+                if (j == n - 1)
                 {
-                    temp[j][k] = coeficientes[j][n - 1];
+                    temp[i][j] = resultados[i][0];
                 }
                 else
                 {
-                    temp[j][k] = coeficientes[j][k];
+                    temp[i][j] = coeficientes[i][j];
                 }
             }
         }
+        
+        printf("\nMatriz temporal:\n");
+        imprimir_matriz(temp, n, n);
 
-        // Calcular el determinante de la nueva matriz
         float det_temp = 0;
         if (n == 2)
         {
@@ -357,52 +396,13 @@ void metodocramer(float **matriz_a)
         {
             det_temp = determinante_sarrus_matriz(temp, 0);
         }
-        
-        printf("\nMatriz temporal:\n");
-		imprimir_matriz(temp, n, n);
 
-        // Imprimir la soluci脙鲁n de la variable x_i
-        printf("x%d = %.2f\n", i + 1, det_temp / det);
+        // Imprimir la soluci髇 de y
+        printf("y = %.2f\n", det_temp / det);
 
         // Liberar la memoria de la matriz temporal
         liberar_memoria_matriz(temp, n);
+
+        // Liberar la memoria de las matrices de coeficientes y resultados
+        liberar_memoria_matriz(coeficientes, n);
     }
-
-    float **temp = reservar_memoria_matriz(n, n);
-    for (int i = 0; i < n; i++)
-    {
-        for (int j = 0; j < n; j++)
-        {
-            if (j == n - 1)
-            {
-                temp[i][j] = resultados[i][0];
-            }
-            else
-            {
-                temp[i][j] = coeficientes[i][j];
-            }
-        }
-    }
-    
-    printf("\nMatriz temporal:\n");
-	imprimir_matriz(temp, n, n);
-
-    float det_temp = 0;
-    if (n == 2)
-    {
-        det_temp = temp[0][0] * temp[1][1] - temp[0][1] * temp[1][0];
-    }
-    else
-    {
-        det_temp = determinante_sarrus_matriz(temp, 0);
-    }
-
-    // Imprimir la soluci脙鲁n de y
-    printf("y = %.2f\n", det_temp / det);
-
-    // Liberar la memoria de la matriz temporal
-    liberar_memoria_matriz(temp, n);
-
-    // Liberar la memoria de las matrices de coeficientes y resultados
-    liberar_memoria_matriz(coeficientes, n);
-}
