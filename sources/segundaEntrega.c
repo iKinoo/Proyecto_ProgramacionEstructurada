@@ -234,6 +234,7 @@ void inversaGaussJordan(float **matriz_a)
     imprimir_matriz(matriz_b, n, m);
 
     // se libera la memoria
+    liberar_memoria_matriz(matrizIngresada, filas_a);
     liberar_memoria_matriz(matriz_b, n);
 }
 void metodocramer(float **matriz_a)
