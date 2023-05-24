@@ -4,6 +4,7 @@
 
 #include "../headers/segundaEntrega.h"
 #include "../headers/matrizDinamica.h"
+#include "../headers/lecturaDeEntrada.h"
 
 float determinante_sarrus_matriz(float **matriz, int imprimirPasos)
 {
@@ -105,8 +106,17 @@ void determinante_matriz(float **matriz)
 void resolverGaussJordan(float **matriz_a, int nVariables)
 {
     int coeficientePivote = 0, coeficienteACero = 0;
+    int verPasos = 0;
 
-    puts("Convirtiendo a 0 valores difernte de diagonal");
+    puts("¿Desea ver los pasos desplegados?");
+    printf("1 -> Sí, 0 -> No: ");
+    verPasos = leerEntero();
+
+    if (verPasos)
+    {
+        puts("Convirtiendo a 0 valores diferentes a la diagonal");
+    }
+
     for (int i = 0; i < nVariables; i++)
     {
         for (int j = 0; j < nVariables; j++)
@@ -120,20 +130,32 @@ void resolverGaussJordan(float **matriz_a, int nVariables)
 
             for (int k = 0; k < nVariables + 1; k++)
             {
-                imprimir_matriz(matriz_a, nVariables, nVariables + 1);
+                if (verPasos)
+                {
+                    imprimir_matriz(matriz_a, nVariables, nVariables + 1);
+                }
+
                 matriz_a[j][k] = (coeficientePivote * matriz_a[j][k]) + (coeficienteACero * matriz_a[i][k] * (-1));
             }
             puts("");
         }
     }
-    puts("Dividiendo entre el pivote para obtener la matriz identidad");
+    if (verPasos)
+    {
+        puts("Dividiendo entre el pivote para obtener la matriz identidad");
+    }
+
     for (int i = 0; i < nVariables; i++)
     {
         int pivote = matriz_a[i][i];
 
         for (int j = 0; j < nVariables + 1; j++)
         {
-            imprimir_matriz(matriz_a, nVariables, nVariables + 1);
+            if (verPasos)
+            {
+                imprimir_matriz(matriz_a, nVariables, nVariables + 1);
+            }
+
             matriz_a[i][j] /= pivote;
         }
     }
