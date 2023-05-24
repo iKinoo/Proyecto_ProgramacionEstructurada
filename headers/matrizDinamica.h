@@ -7,5 +7,6 @@ void leer_dimensiones(int *filas, int *columnas);
 float **leer_matriz(int filas, int columnas);
 void validarDimension(int *dimension);
 void imprimir_matriz(float **matriz, int filas, int columnas);
+float **copiarMatriz(float **matrizOriginal, int filas, int columnas);
 
 #endif

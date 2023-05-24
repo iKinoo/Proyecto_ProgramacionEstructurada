@@ -114,3 +114,16 @@ void imprimir_matriz(float **matriz, int filas, int columnas)
     }
     imprimirRenglones(columnas);
 }
+float **copiarMatriz(float **matrizOriginal, int filas, int columnas)
+{
+    float **matrizCopiada = reservar_memoria_matriz(filas, columnas);
+
+    for (int i = 0; i < filas; i++)
+    {
+        for (int j = 0; j < columnas; j++)
+        {
+            matrizCopiada[i][j] = matrizOriginal[i][j];
+        }
+    }
+    return matrizCopiada;
+}
