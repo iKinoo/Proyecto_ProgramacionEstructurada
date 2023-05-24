@@ -70,7 +70,7 @@ float tomar_fila(float **matriz, int filas, int columnas)
 
 void determinante_matriz(float **matriz)
 {
-    // MÃƒÂ©todo para matrices 1x1
+    // MÃétodo para matrices 1x1
     float determinante = 0;
     if (filas_a == 1 && columnas_a == 1)
     {
