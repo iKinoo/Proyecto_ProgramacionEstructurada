@@ -17,8 +17,6 @@
                 "${workspaceFolder}\\sources\\segundaEntrega.c",
                 "${workspaceFolder}\\headers\\segundaEntrega.h",
                 "-o",
-
-
                 "${workspaceFolder}\\CalculadoraDeMatrices.exe",
                 "-Wall",
                 "-pedantic-errors",
